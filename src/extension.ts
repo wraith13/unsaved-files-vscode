@@ -7,6 +7,8 @@ export module UnsavedFiles
 {
     let pass_through;
 
+    var unsavedFilesLabel : vscode.StatusBarItem;
+
     export function registerCommand(context : vscode.ExtensionContext): void
     {
         context.subscriptions.push
@@ -16,6 +18,28 @@ export module UnsavedFiles
                 'unsaved-files.show', show
             )
         );
+
+        unsavedFilesLabel = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+        unsavedFilesLabel.text = getUnsavedFilesLabelText();
+        unsavedFilesLabel.command = "unsaved-files.show";
+        unsavedFilesLabel.show();
+
+        context.subscriptions.push(unsavedFilesLabel);
+
+        vscode.workspace.onDidOpenTextDocument(() => updateStatusBar());
+        vscode.workspace.onDidChangeTextDocument(() => updateStatusBar());
+        vscode.workspace.onDidSaveTextDocument(() => updateStatusBar());
+    }
+
+    const getUnsavedFiles = () : vscode.TextDocument[] => vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
+    function getUnsavedFilesLabelText() : string
+    {
+        return `unsaved:${getUnsavedFiles().length}`;
+    }
+
+    export function updateStatusBar() : void
+    {
+        unsavedFilesLabel.text = getUnsavedFilesLabelText();
     }
 
     const stripFileName = (path : string) : string => path.substr(0, path.length -stripDirectory(path).length);

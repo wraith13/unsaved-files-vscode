@@ -27,7 +27,7 @@
         "documents"
     ],
     "activationEvents": [
-        "onCommand:unsaved-files.show"
+        "*"
     ],
     "main": "./out/src/extension",
     "contributes": {
