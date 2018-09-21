@@ -2,7 +2,7 @@
     "name": "unsaved-files-vscode",
     "displayName": "Unsaved Files",
     "description": "Easy access to unsaved files for vscode.",
-    "icon": "images/infohex.128.png",
+    "icon": "images/unsavedhex.128.png",
     "version": "0.0.0",
     "publisher": "wraith13",
     "license": "SEE LICENSE IN LICENSE_1_0.txt",
