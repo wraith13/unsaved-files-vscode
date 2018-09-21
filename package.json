@@ -3,7 +3,7 @@
     "displayName": "Unsaved Files",
     "description": "Easy access to unsaved files for vscode.",
     "icon": "images/unsavedhex.128.png",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "publisher": "wraith13",
     "license": "SEE LICENSE IN LICENSE_1_0.txt",
     "engines": {
@@ -22,8 +22,9 @@
     ],
     "keywords": [
         "unsaved",
+        "untitled",
         "files",
-        "unsaved files"
+        "documents"
     ],
     "activationEvents": [
         "onCommand:unsaved-files.show"
