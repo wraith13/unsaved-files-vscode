@@ -21,38 +21,20 @@
         "Other"
     ],
     "keywords": [
-        "vscode",
-        "system",
-        "system information",
-        "extensions",
-        "extensions list"
+        "unsaved",
+        "files",
+        "unsaved files"
     ],
     "activationEvents": [
-        "onCommand:unsaved-files-vscode.showSystemInformation"
+        "onCommand:unsaved-files.show"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "commands": [
             {
-                "command": "unsaved-files-vscode.showSystemInformation",
+                "command": "unsaved-files.show",
                 "title": "Show",
                 "category": "Unsaved Files"
-            }
-        ],
-        "configuration": [
-            {
-                "title": "Unsaved Files",
-                "properties": {
-                    "unsaved-files.hideItems": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "default": [
-                        ],
-                        "description": "list of hide items ( see README )"
-                    }
-                }
             }
         ]
     },
