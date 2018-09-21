@@ -18,6 +18,9 @@ export module UnsavedFiles
         );
     }
 
+    const stripFileName = (path : string) : string => path.substr(0, path.length -stripDirectory(path).length);
+    const stripDirectory = (path : string) : string => path.split('\\').reverse()[0].split('/').reverse()[0];
+
     export async function show() : Promise<void>
     {
         const unsavedDocuments = vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
@@ -27,25 +30,25 @@ export module UnsavedFiles
         }
         else
         {
-            const selectedFile = await vscode.window.showQuickPick
+            const selected = await vscode.window.showQuickPick
             (
                 unsavedDocuments.map
                 (
                     i => pass_through =
                     {
-                        "label": i.fileName,
-                        "description": "", // `lines:${i.lineCount}`,
-                        "detail": i.languageId
+                        label: stripDirectory(i.fileName),
+                        description: stripFileName(i.fileName),
+                        detail: i.languageId,
+                        document: i
                     }
                 ),
                 {
                     placeHolder: "Select a unsaved file",
                 }
             );
-            if (selectedFile)
+            if (selected)
             {
-                const selectedDocument = unsavedDocuments.filter(i => i.fileName === selectedFile.label)[0];
-                vscode.window.showTextDocument(selectedDocument);
+                vscode.window.showTextDocument(selected.document);
             }
         }
     }
