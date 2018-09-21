@@ -20,6 +20,7 @@ export module UnsavedFiles
 
     const stripFileName = (path : string) : string => path.substr(0, path.length -stripDirectory(path).length);
     const stripDirectory = (path : string) : string => path.split('\\').reverse()[0].split('/').reverse()[0];
+    const digest = (text : string) : string => text.replace(/\s+/g, " ").substr(0, 128);
 
     export async function show() : Promise<void>
     {
@@ -37,7 +38,9 @@ export module UnsavedFiles
                     i => pass_through =
                     {
                         label: stripDirectory(i.fileName),
-                        description: stripFileName(i.fileName),
+                        description: i.isUntitled ?
+                            digest(i.getText()):
+                            stripFileName(i.fileName),
                         detail: i.languageId,
                         document: i
                     }
