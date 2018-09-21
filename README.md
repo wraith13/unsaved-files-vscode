@@ -2,11 +2,11 @@
 
 [![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version/wraith13.unsaved-files-vscode.svg) ![installs](https://vsmarketplacebadge.apphb.com/installs/wraith13.unsaved-files-vscode.svg) ![rating](https://vsmarketplacebadge.apphb.com/rating/wraith13.unsaved-files-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=wraith13.unsaved-files-vscode)
 
-This Visual Studio Code extension shows system information ( includes extensions list ) by markdown or JSON.
+Easy access to unsaved files for vscode.
 
 ## Features
 
-`Unsaved Files: Show` command shows Visual Studio Code system information ( includes extensions list ) by markdown or JSON.
+`Unsaved Files: Show` show unsaved files
 
 ![screen shot](./images/screenshot.png)
 
@@ -18,35 +18,13 @@ Show extension side bar within VS Code(Mac:<kbd>Command</kbd>+<kbd>Shift</kbd>+<
 
 ### 1. ✨️ Show Unsaved Files
 
-Launch Command Palette(Mac:<kbd>F1</kbd> or <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>, Windows and Linux: <kbd>F1</kbd> or <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd>), Execute `Unsaved Files: Show` command and select options as you like.
-
-### 2. 🔧 Next step
-
-You can change [settings](#extension-settings) by `settings.json`.
+Launch Command Palette(Mac:<kbd>F1</kbd> or <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>, Windows and Linux: <kbd>F1</kbd> or <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd>), Execute `Unsaved Files: Show` command and select a unsaved file as you like.
 
 Enjoy!
 
 ## Commands
 
-* `Unsaved Files: Show` : show system information
-
-## Extension Settings
-
-This extension contributes the following settings by [`settings.json`](https://code.visualstudio.com/docs/customization/userandworkspace#_creating-user-and-workspace-settings)( Mac: <kbd>Command</kbd>+<kbd>,</kbd>, Windows / Linux: <kbd>File</kbd> -> <kbd>Preferences</kbd> -> <kbd>User Settings</kbd> ):
-
-* `unsaved-files.hideItems`: set list of hide items
-
-You can hide the specified items. see below example.
-
-```json
-"unsaved-files.hideItems": [
-    "timestamp",
-    "provider",
-    "warnings.W001",
-    "vscode.env",
-    "vscode.extensions.*.packageJSON.description"
-]
-```
+* `Unsaved Files: Show` : show unsaved files
 
 ## Release Notes
 
