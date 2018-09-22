@@ -8,9 +8,7 @@ Easy access to unsaved files for vscode.
 
 `Unsaved Files: Show` show unsaved files
 
-![screen shot: quick pick](./images/screenshot.png)
-
-![screen shot: status bar](./images/screenshot2.png)
+![screen shot](./images/screenshot.png)
 
 ## Tutorial
 
