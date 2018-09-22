@@ -4,7 +4,13 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## 1.1.0 - 2018-09-??
+## 1.2.0 - 2018-09-??
+
+### Changed
+
+- default `unsaved-files.statusBar.label` setting value: "unsaved" -> "unsaved:"
+
+## 1.1.0 - 2018-09-22
 
 ### Added
 

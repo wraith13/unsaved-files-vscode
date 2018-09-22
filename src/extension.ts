@@ -40,10 +40,7 @@ export module UnsavedFiles
 
     const getUnsavedFiles = () : vscode.TextDocument[] => vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
 
-    function getUnsavedFilesLabelText() : string
-    {
-        return `${getStatusBarLabel()}:${getUnsavedFiles().length}`;
-    }
+    const getUnsavedFilesLabelText = () : string => [getStatusBarLabel(), `${getUnsavedFiles().length}`].filter(i => 0 < i.length).join(" ");
 
     export function updateStatusBar() : void
     {
