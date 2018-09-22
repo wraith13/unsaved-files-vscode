@@ -37,6 +37,23 @@
                 "title": "Show",
                 "category": "Unsaved Files"
             }
+        ],
+        "configuration": [
+            {
+                "title": "Unsaved Files",
+                "properties": {
+                    "unsaved-files.statusBar.enabled": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Enable/Disable unsaved files count in status bar"
+                    },
+                    "unsaved-files.statusBar.label": {
+                        "type": "string",
+                        "default": "unsaved",
+                        "description": "unsaved's label"
+                    }
+                }
+            }
         ]
     },
     "scripts": {

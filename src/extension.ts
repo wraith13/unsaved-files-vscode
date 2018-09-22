@@ -7,39 +7,55 @@ export module UnsavedFiles
 {
     let pass_through;
 
+    const applicationKey = "unsaved-files";
     var unsavedFilesLabel : vscode.StatusBarItem;
+
+    function getConfiguration<type>(key? : string, section : string = applicationKey) : type
+    {
+        const configuration = vscode.workspace.getConfiguration(section);
+        return key ?
+            configuration[key] :
+            configuration;
+    }
+
+    const getStatusBarLabel = () : string => getConfiguration<string>("label", `${applicationKey}.statusBar`);
+    const getStatusBarEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.statusBar`);
 
     export function registerCommand(context : vscode.ExtensionContext): void
     {
-        context.subscriptions.push
-        (
-            vscode.commands.registerCommand
-            (
-                'unsaved-files.show', show
-            )
-        );
+        const showCommandKey = `${applicationKey}.show`;
+        context.subscriptions.push(vscode.commands.registerCommand(showCommandKey, show));
 
         unsavedFilesLabel = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-        unsavedFilesLabel.text = getUnsavedFilesLabelText();
-        unsavedFilesLabel.command = "unsaved-files.show";
-        unsavedFilesLabel.show();
-
+        unsavedFilesLabel.command = showCommandKey;
         context.subscriptions.push(unsavedFilesLabel);
 
         vscode.workspace.onDidOpenTextDocument(() => updateStatusBar());
+        vscode.workspace.onDidCloseTextDocument(() => updateStatusBar());
         vscode.workspace.onDidChangeTextDocument(() => updateStatusBar());
         vscode.workspace.onDidSaveTextDocument(() => updateStatusBar());
+        vscode.workspace.onDidChangeConfiguration(() => updateStatusBar());
+        updateStatusBar();
     }
 
     const getUnsavedFiles = () : vscode.TextDocument[] => vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
+
     function getUnsavedFilesLabelText() : string
     {
-        return `unsaved:${getUnsavedFiles().length}`;
+        return `${getStatusBarLabel()}:${getUnsavedFiles().length}`;
     }
 
     export function updateStatusBar() : void
     {
-        unsavedFilesLabel.text = getUnsavedFilesLabelText();
+        if (getStatusBarEnabled())
+        {
+            unsavedFilesLabel.text = getUnsavedFilesLabelText();
+            unsavedFilesLabel.show();
+        }
+        else
+        {
+            unsavedFilesLabel.hide();
+        }
     }
 
     const stripFileName = (path : string) : string => path.substr(0, path.length -stripDirectory(path).length);
