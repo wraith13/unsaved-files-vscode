@@ -47,6 +47,16 @@
                         "default": true,
                         "description": "Enable/Disable unsaved files count in status bar"
                     },
+                    "unsaved-files.statusBar.noUnsavedFilesStatusLabel": {
+                        "type": "string",
+                        "default": "$(check)",
+                        "description": "no unsaved files's label"
+                    },
+                    "unsaved-files.statusBar.anyUnsavedFilesStatusLabel": {
+                        "type": "string",
+                        "default": "$(primitive-dot)",
+                        "description": "any unsaved files's label"
+                    },
                     "unsaved-files.statusBar.label": {
                         "type": "string",
                         "default": "unsaved:",

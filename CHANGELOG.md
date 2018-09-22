@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## 1.2.0 - 2018-09-??
 
+### Added
+
+- unsaved files status label on status bar.
+
 ### Changed
 
 - default `unsaved-files.statusBar.label` setting value: "unsaved" -> "unsaved:"

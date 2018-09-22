@@ -37,7 +37,17 @@ Enjoy!
 This extension contributes the following settings by [`settings.json`](https://code.visualstudio.com/docs/customization/userandworkspace#_creating-user-and-workspace-settings)( Mac: <kbd>Command</kbd>+<kbd>,</kbd>, Windows / Linux: <kbd>File</kbd> -> <kbd>Preferences</kbd> -> <kbd>User Settings</kbd> ):
 
 * `unsaved-files.statusBar.enabled`: set Enable/Disable unsaved files count in status bar
+* `unsaved-files.statusBar.noUnsavedFilesStatusLabel`: set no unsaved files's label
+* `unsaved-files.statusBar.anyUnsavedFilesStatusLabel`: set any unsaved files's label
 * `unsaved-files.statusBar.label`: set unsaved's label
+
+You can embed icons in the label text by leveraging the syntax:
+
+`My text $(icon-name) contains icons like $(icon'name) this one.`
+
+Where the icon-name is taken from the [octicon](https://octicons.github.com) icon set, e.g. `light-bulb`, `thumbsup`, `zap` etc.
+
+You can specify unicode characters ( include emoji ) as label text too.
 
 ## Release Notes
 

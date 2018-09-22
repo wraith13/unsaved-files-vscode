@@ -38,12 +38,25 @@ export module UnsavedFiles
         updateStatusBar();
     }
 
-    const getUnsavedFiles = () : vscode.TextDocument[] => vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
+    let unsavedDocuments : vscode.TextDocument[];
 
-    const getUnsavedFilesLabelText = () : string => [getStatusBarLabel(), `${getUnsavedFiles().length}`].filter(i => 0 < i.length).join(" ");
+    const getUnsavedFilesLabelText = () : string =>
+    [
+        getConfiguration<string>
+        (
+            unsavedDocuments.length <= 0 ?
+                "noUnsavedFilesStatusLabel":
+                "anyUnsavedFilesStatusLabel",
+            `${applicationKey}.statusBar`
+        ),
+        getStatusBarLabel(),
+        `${unsavedDocuments.length}`
+    ].filter(i => 0 < i.length).join(" ");
 
     export function updateStatusBar() : void
     {
+        unsavedDocuments = vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
+
         if (getStatusBarEnabled())
         {
             unsavedFilesLabel.text = getUnsavedFilesLabelText();
@@ -61,7 +74,6 @@ export module UnsavedFiles
 
     export async function show() : Promise<void>
     {
-        const unsavedDocuments = vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
         if (unsavedDocuments.length <= 0)
         {
             await vscode.window.showInformationMessage("No unsaved files");
