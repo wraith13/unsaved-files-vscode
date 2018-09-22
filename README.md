@@ -18,13 +18,24 @@ Show extension side bar within VS Code(Mac:<kbd>Command</kbd>+<kbd>Shift</kbd>+<
 
 ### 1. ✨️ Show Unsaved Files
 
-Launch Command Palette(Mac:<kbd>F1</kbd> or <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>, Windows and Linux: <kbd>F1</kbd> or <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd>), Execute `Unsaved Files: Show` command and select a unsaved file as you like.
+Click `unsaved:*` in statub bar or launch Command Palette(Mac:<kbd>F1</kbd> or <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>, Windows and Linux: <kbd>F1</kbd> or <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd>), Execute `Unsaved Files: Show` command and select a unsaved file as you like.
+
+### 2. 🔧 Next step
+
+You can change [settings](#extension-settings) by `settings.json`.
 
 Enjoy!
 
 ## Commands
 
 * `Unsaved Files: Show` : show unsaved files
+
+## Extension Settings
+
+This extension contributes the following settings by [`settings.json`](https://code.visualstudio.com/docs/customization/userandworkspace#_creating-user-and-workspace-settings)( Mac: <kbd>Command</kbd>+<kbd>,</kbd>, Windows / Linux: <kbd>File</kbd> -> <kbd>Preferences</kbd> -> <kbd>User Settings</kbd> ):
+
+* `unsaved-files.statusBar.enabled`: set Enable/Disable unsaved files count in status bar
+* `unsaved-files.statusBar.label`: set unsaved's label
 
 ## Release Notes
 
