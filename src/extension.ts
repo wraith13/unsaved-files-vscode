@@ -32,12 +32,14 @@ export module UnsavedFiles
         unsavedFilesLabel.command = showCommandKey;
         context.subscriptions.push(unsavedFilesLabel);
 
-        vscode.workspace.onDidOpenTextDocument(() => updateStatusBar());
-        vscode.workspace.onDidCloseTextDocument(() => updateStatusBar());
-        vscode.workspace.onDidChangeTextDocument(() => updateStatusBar());
-        vscode.workspace.onDidSaveTextDocument(() => updateStatusBar());
+        vscode.window.onDidChangeActiveTextEditor(() => updateUnsavedDocumentsOrder());
+        vscode.workspace.onDidOpenTextDocument(() => updateUnsavedDocuments());
+        vscode.workspace.onDidCloseTextDocument(() => updateUnsavedDocuments());
+        vscode.workspace.onDidChangeTextDocument(() => updateUnsavedDocuments());
+        vscode.workspace.onDidSaveTextDocument(() => updateUnsavedDocuments());
         vscode.workspace.onDidChangeConfiguration(() => updateStatusBar());
-        updateStatusBar();
+
+        updateUnsavedDocuments();
     }
 
     const getUnsavedFilesLabelText = () : string =>
@@ -68,6 +70,11 @@ export module UnsavedFiles
             .filter(i => oldUnsavedDocumentsFileName.indexOf(i.fileName) < 0)
             .concat(unsavedDocuments);
 
+        updateUnsavedDocumentsOrder();
+    }
+    
+    function updateUnsavedDocumentsOrder() : void
+    {
         //  アクティブなドキュメントを先頭へ
         var activeTextEditor = vscode.window.activeTextEditor;
         if (activeTextEditor)
@@ -83,12 +90,12 @@ export module UnsavedFiles
                     .concat(unsavedDocuments.filter(i => i.fileName !== activeDocument.fileName));
             }
         }
+
+        updateStatusBar();
     }
 
     export function updateStatusBar() : void
     {
-        updateUnsavedDocuments();
-
         if (getStatusBarEnabled())
         {
             unsavedFilesLabel.text = getUnsavedFilesLabelText();
