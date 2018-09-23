@@ -8,6 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Changed
 
+- Sort unsaved files list by last acces.
 - improved unsaved files list display.
 
 ## 1.2.0 - 2018-09-23

@@ -8,6 +8,8 @@ export module UnsavedFiles
     let pass_through;
 
     const applicationKey = "unsaved-files";
+    let unsavedDocuments : vscode.TextDocument[] = [];
+
     var unsavedFilesLabel : vscode.StatusBarItem;
 
     function getConfiguration<type>(key? : string, section : string = applicationKey) : type
@@ -38,8 +40,6 @@ export module UnsavedFiles
         updateStatusBar();
     }
 
-    let unsavedDocuments : vscode.TextDocument[];
-
     const getUnsavedFilesLabelText = () : string =>
     [
         getConfiguration<string>
@@ -53,9 +53,41 @@ export module UnsavedFiles
         `${unsavedDocuments.length}`
     ].filter(i => 0 < i.length).join(" ");
 
+    function updateUnsavedDocuments() : void
+    {
+        const unsavedDocumentsSource = vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
+        const oldUnsavedDocumentsFileName = unsavedDocuments
+            .map(i => i.fileName);
+        //  既知のドキュメントの情報を新しいオブジェクトに差し替えつつ、消えたドキュメントを間引く
+        unsavedDocuments = oldUnsavedDocumentsFileName
+            .map(i => unsavedDocumentsSource.find(j => j.fileName === i))
+            .filter(i => undefined !== i)
+            .map(i => <vscode.TextDocument>i);
+        //  既知でないドキュメントのオブジェクトを先頭に挿入
+        unsavedDocuments = unsavedDocumentsSource
+            .filter(i => oldUnsavedDocumentsFileName.indexOf(i.fileName) < 0)
+            .concat(unsavedDocuments);
+
+        //  アクティブなドキュメントを先頭へ
+        var activeTextEditor = vscode.window.activeTextEditor;
+        if (activeTextEditor)
+        {
+            var activeDocument = activeTextEditor.document;
+            if
+            (
+                (activeDocument.isDirty || activeDocument.isUntitled) &&
+                unsavedDocuments[0].fileName !== activeDocument.fileName
+            )
+            {
+                unsavedDocuments = [activeTextEditor.document]
+                    .concat(unsavedDocuments.filter(i => i.fileName !== activeDocument.fileName));
+            }
+        }
+    }
+
     export function updateStatusBar() : void
     {
-        unsavedDocuments = vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
+        updateUnsavedDocuments();
 
         if (getStatusBarEnabled())
         {
