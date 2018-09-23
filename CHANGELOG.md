@@ -4,6 +4,12 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.3.0 - 2018-09-2?
+
+### Changed
+
+- improved unsaved files list display.
+
 ## 1.2.0 - 2018-09-23
 
 ### Added

@@ -86,7 +86,7 @@ export module UnsavedFiles
                 (
                     i => pass_through =
                     {
-                        label: stripDirectory(i.fileName),
+                        label: `$(primitive-dot) $(file-text) ${stripDirectory(i.fileName)}`,
                         description: i.isUntitled ?
                             digest(i.getText()):
                             stripFileName(i.fileName),
