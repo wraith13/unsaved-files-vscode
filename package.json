@@ -36,6 +36,16 @@
                 "command": "unsaved-files.show",
                 "title": "Show",
                 "category": "Unsaved Files"
+            },
+            {
+                "command": "unsaved-files.showNext",
+                "title": "Show Next",
+                "category": "Unsaved Files"
+            },
+            {
+                "command": "unsaved-files.showPrevious",
+                "title": "Show Previous",
+                "category": "Unsaved Files"
             }
         ],
         "configuration": [

@@ -6,9 +6,13 @@ Easy access to unsaved files for vscode.
 
 ## Features
 
-`Unsaved Files: Show` show unsaved files
+* `Unsaved Files: Show` show unsaved files
+* `Unsaved Files: Show Next` show next unsaved file
+* `Unsaved Files: Show Previous` show previous unsaved file
 
-![screen shot](./images/screenshot.png)
+![screen shot: Show](./images/screenshot.png)
+
+![screen shot: Show Next/Previous](./images/screenshot2.png)
 
 > This extension only shows unsaved files, does not save nor close.
 
@@ -31,6 +35,8 @@ Enjoy!
 ## Commands
 
 * `Unsaved Files: Show` : show unsaved files
+* `Unsaved Files: Show Next` show next unsaved file
+* `Unsaved Files: Show Previous` show previous unsaved file
 
 ## Extension Settings
 
@@ -48,6 +54,20 @@ You can embed icons in the label text by leveraging the syntax:
 Where the icon-name is taken from the [octicon](https://octicons.github.com) icon set, e.g. `light-bulb`, `thumbsup`, `zap` etc.
 
 You can specify unicode characters ( include emoji ) as label text too.
+
+## Keyboard shortcut Settings
+
+In default, Unsaved Files's commands doesn't apply keyboard shortcuts. Althogh,
+you can apply keyboard shortcuts by [`keybindings.json`](https://code.visualstudio.com/docs/customization/keybindings#_customizing-shortcuts)
+( Mac: <kbd>Code</kbd> -> <kbd>Preferences</kbd> -> <kbd>Keyboard Shortcuts</kbd>, Windows / Linux: <kbd>File</kbd> -> <kbd>Preferences</kbd> -> <kbd>Keyboard Shortcuts</kbd>).
+
+Command name on `keybindings.json` is diffarent from on Command Pallete. See below table.
+
+|on Command Pallete|on keybindings.json|
+|-|-|
+|`Unsaved Files: Show`|`unsaved-files.show`|
+|`Unsaved Files: Show Next`|`unsaved-files.showNext`|
+|`Unsaved Files: Show Previous`|`unsaved-files.showPrevious`|
 
 ## Release Notes
 

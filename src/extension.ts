@@ -9,8 +9,12 @@ export module UnsavedFiles
 
     const applicationKey = "unsaved-files";
     let unsavedDocuments : vscode.TextDocument[] = [];
+    let nextUnsavedDocument : vscode.TextDocument | null = null;
+    let previousUnsavedDocument : vscode.TextDocument | null = null;
 
-    var unsavedFilesLabel : vscode.StatusBarItem;
+    let unsavedFilesLabel : vscode.StatusBarItem;
+    let nextLabel : vscode.StatusBarItem;
+    let previousLabel : vscode.StatusBarItem;
 
     function getConfiguration<type>(key? : string, section : string = applicationKey) : type
     {
@@ -23,21 +27,81 @@ export module UnsavedFiles
     const getStatusBarLabel = () : string => getConfiguration<string>("label", `${applicationKey}.statusBar`);
     const getStatusBarEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.statusBar`);
 
-    export function registerCommand(context : vscode.ExtensionContext): void
+    function createStatusBarItem
+    (
+        properties :
+        {
+            alignment ? : vscode.StatusBarAlignment,
+            text ? : string,
+            command ? : string,
+            tooltip ? : string
+        }
+    )
+    : vscode.StatusBarItem
+    {
+        const result = vscode.window.createStatusBarItem(properties.alignment);
+        if (undefined !== properties.text)
+        {
+            result.text = properties.text;
+        }
+        if (undefined !== properties.command)
+        {
+            result.command = properties.command;
+        }
+        if (undefined !== properties.tooltip)
+        {
+            result.tooltip = properties.tooltip;
+        }
+        return result;
+    }
+
+    export function initialize(context : vscode.ExtensionContext): void
     {
         const showCommandKey = `${applicationKey}.show`;
-        context.subscriptions.push(vscode.commands.registerCommand(showCommandKey, show));
+        const showNextCommandKey = `${applicationKey}.showNext`;
+        const showPreviousCommandKey = `${applicationKey}.showPrevious`;
 
-        unsavedFilesLabel = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-        unsavedFilesLabel.command = showCommandKey;
-        context.subscriptions.push(unsavedFilesLabel);
+        [
+            //  コマンドの登録
+            vscode.commands.registerCommand(showCommandKey, show),
+            vscode.commands.registerCommand(showNextCommandKey, showNext),
+            vscode.commands.registerCommand(showPreviousCommandKey, showPrevious),
 
-        vscode.window.onDidChangeActiveTextEditor(() => updateUnsavedDocumentsOrder());
-        vscode.workspace.onDidOpenTextDocument(() => updateUnsavedDocuments());
-        vscode.workspace.onDidCloseTextDocument(() => updateUnsavedDocuments());
-        vscode.workspace.onDidChangeTextDocument(() => updateUnsavedDocuments());
-        vscode.workspace.onDidSaveTextDocument(() => updateUnsavedDocuments());
-        vscode.workspace.onDidChangeConfiguration(() => updateStatusBar());
+            //  ステータスバーアイテムの登録
+            unsavedFilesLabel = createStatusBarItem
+            (
+                {
+                    alignment: vscode.StatusBarAlignment.Left,
+                    command: showCommandKey,
+                    tooltip: "show unsaved files"
+                }
+            ),
+            nextLabel = createStatusBarItem
+            (
+                {
+                    alignment: vscode.StatusBarAlignment.Left,
+                    text: "$(triangle-right)",
+                    command: showNextCommandKey
+                }
+            ),
+            previousLabel = createStatusBarItem
+            (
+                {
+                    alignment: vscode.StatusBarAlignment.Left,
+                    text: "$(triangle-left)",
+                    command: showPreviousCommandKey
+                }
+            ),
+
+            //  イベントリスナーの登録
+            vscode.window.onDidChangeActiveTextEditor(() => updateUnsavedDocumentsOrder()),
+            vscode.workspace.onDidOpenTextDocument(() => updateUnsavedDocuments()),
+            vscode.workspace.onDidCloseTextDocument(() => updateUnsavedDocuments()),
+            vscode.workspace.onDidChangeTextDocument(() => updateUnsavedDocuments()),
+            vscode.workspace.onDidSaveTextDocument(() => updateUnsavedDocuments()),
+            vscode.workspace.onDidChangeConfiguration(() => updateStatusBar())
+        ]
+        .forEach(i => context.subscriptions.push(i));
 
         updateUnsavedDocuments();
     }
@@ -76,10 +140,10 @@ export module UnsavedFiles
     function updateUnsavedDocumentsOrder() : void
     {
         //  アクティブなドキュメントを先頭へ
-        var activeTextEditor = vscode.window.activeTextEditor;
+        const activeTextEditor = vscode.window.activeTextEditor;
         if (activeTextEditor)
         {
-            var activeDocument = activeTextEditor.document;
+            const activeDocument = activeTextEditor.document;
             if
             (
                 (activeDocument.isDirty || activeDocument.isUntitled) &&
@@ -91,6 +155,22 @@ export module UnsavedFiles
             }
         }
 
+        if (0 < unsavedDocuments.length)
+        {
+            const sortedUnsavedDocuments = unsavedDocuments
+                .map(i => i) // 元の配列の順番を壊さない為に一次配列を作成する
+                .sort((a, b) => a.fileName.localeCompare(b.fileName));
+
+            const currentIndex = sortedUnsavedDocuments.map(i => i.fileName).indexOf(unsavedDocuments[0].fileName);
+            nextUnsavedDocument = sortedUnsavedDocuments[(currentIndex +1) % sortedUnsavedDocuments.length];
+            previousUnsavedDocument = sortedUnsavedDocuments[(currentIndex -1 +sortedUnsavedDocuments.length) % sortedUnsavedDocuments.length];
+        }
+        else
+        {
+            nextUnsavedDocument = null;
+            previousUnsavedDocument = null;
+        }
+
         updateStatusBar();
     }
 
@@ -98,14 +178,20 @@ export module UnsavedFiles
     {
         if (getStatusBarEnabled())
         {
+            previousLabel.tooltip = previousUnsavedDocument && `show ${previousUnsavedDocument.fileName}` || "";
+            previousLabel.show();
             unsavedFilesLabel.text = getUnsavedFilesLabelText();
             unsavedFilesLabel.show();
+            nextLabel.tooltip = nextUnsavedDocument && `show ${nextUnsavedDocument.fileName}` || "";
+            nextLabel.show();
         }
         else
         {
             unsavedFilesLabel.hide();
         }
     }
+
+    const showNoUnsavedFilesMessage = async () => await vscode.window.showInformationMessage("No unsaved files");
 
     const stripFileName = (path : string) : string => path.substr(0, path.length -stripDirectory(path).length);
     const stripDirectory = (path : string) : string => path.split('\\').reverse()[0].split('/').reverse()[0];
@@ -115,7 +201,7 @@ export module UnsavedFiles
     {
         if (unsavedDocuments.length <= 0)
         {
-            await vscode.window.showInformationMessage("No unsaved files");
+            await showNoUnsavedFilesMessage();
         }
         else
         {
@@ -139,8 +225,30 @@ export module UnsavedFiles
             );
             if (selected)
             {
-                vscode.window.showTextDocument(selected.document);
+                await vscode.window.showTextDocument(selected.document);
             }
+        }
+    }
+    export async function showNext() : Promise<void>
+    {
+        if (nextUnsavedDocument)
+        {
+            await vscode.window.showTextDocument(nextUnsavedDocument);
+        }
+        else
+        {
+            await showNoUnsavedFilesMessage();
+        }
+    }
+    export async function showPrevious() : Promise<void>
+    {
+        if (previousUnsavedDocument)
+        {
+            await vscode.window.showTextDocument(previousUnsavedDocument);
+        }
+        else
+        {
+            await showNoUnsavedFilesMessage();
         }
     }
 
@@ -154,7 +262,7 @@ export module UnsavedFiles
 
 export function activate(context: vscode.ExtensionContext) : void
 {
-    UnsavedFiles.registerCommand(context);
+    UnsavedFiles.initialize(context);
 }
 
 export function deactivate() : void
