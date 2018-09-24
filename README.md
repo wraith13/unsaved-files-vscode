@@ -10,6 +10,8 @@ Easy access to unsaved files for vscode.
 
 ![screen shot](./images/screenshot.png)
 
+> This extension only shows unsaved files, does not save nor close.
+
 ## Tutorial
 
 ### 0. ⬇️ Install Unsaved Files
