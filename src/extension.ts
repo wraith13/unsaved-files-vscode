@@ -61,7 +61,8 @@ export module UnsavedFiles
         const showNextCommandKey = `${applicationKey}.showNext`;
         const showPreviousCommandKey = `${applicationKey}.showPrevious`;
 
-        [
+        context.subscriptions.push
+        (
             //  コマンドの登録
             vscode.commands.registerCommand(showCommandKey, show),
             vscode.commands.registerCommand(showNextCommandKey, showNext),
@@ -100,8 +101,7 @@ export module UnsavedFiles
             vscode.workspace.onDidChangeTextDocument(() => updateUnsavedDocuments()),
             vscode.workspace.onDidSaveTextDocument(() => updateUnsavedDocuments()),
             vscode.workspace.onDidChangeConfiguration(() => updateStatusBar())
-        ]
-        .forEach(i => context.subscriptions.push(i));
+        );
 
         updateUnsavedDocuments();
     }
