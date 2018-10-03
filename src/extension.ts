@@ -3,6 +3,19 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
+import localeEn from "../package.nls.json";
+//import localeJa from "../package.nls.ja.json";
+
+interface LocaleEntry
+{
+    [key : string] : string;
+}
+const localeTableKey = <string>JSON.parse(<string>process.env.VSCODE_NLS_CONFIG).locale;
+const localeTable = Object.assign(localeEn, ((<{[key : string] : LocaleEntry}>{
+//    ja : localeJa
+})[localeTableKey] || { }));
+const localeString = (key : string) : string => localeTable[key] || key;
+
 export module UnsavedFiles
 {
     let pass_through;
@@ -74,7 +87,7 @@ export module UnsavedFiles
                 {
                     alignment: vscode.StatusBarAlignment.Left,
                     command: showCommandKey,
-                    tooltip: "show unsaved files"
+                    tooltip: localeString("statusbar.show.tooltip")
                 }
             ),
             nextLabel = createStatusBarItem
@@ -178,11 +191,11 @@ export module UnsavedFiles
     {
         if (getStatusBarEnabled())
         {
-            previousLabel.tooltip = previousUnsavedDocument && `show ${previousUnsavedDocument.fileName}` || "";
+            previousLabel.tooltip = previousUnsavedDocument && localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, previousUnsavedDocument.fileName) || "";
             previousLabel.show();
             unsavedFilesLabel.text = getUnsavedFilesLabelText();
             unsavedFilesLabel.show();
-            nextLabel.tooltip = nextUnsavedDocument && `show ${nextUnsavedDocument.fileName}` || "";
+            nextLabel.tooltip = nextUnsavedDocument && localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, nextUnsavedDocument.fileName) || "";
             nextLabel.show();
         }
         else
@@ -191,7 +204,7 @@ export module UnsavedFiles
         }
     }
 
-    const showNoUnsavedFilesMessage = async () => await vscode.window.showInformationMessage("No unsaved files");
+    const showNoUnsavedFilesMessage = async () => await vscode.window.showInformationMessage(localeString("noUnsavedFiles.message"));
 
     const stripFileName = (path : string) : string => path.substr(0, path.length -stripDirectory(path).length);
     const stripDirectory = (path : string) : string => path.split('\\').reverse()[0].split('/').reverse()[0];
@@ -220,7 +233,7 @@ export module UnsavedFiles
                     }
                 ),
                 {
-                    placeHolder: "Select a unsaved file",
+                    placeHolder: localeString("selectUnsavedFiles.placeHolder"),
                 }
             );
             if (selected)

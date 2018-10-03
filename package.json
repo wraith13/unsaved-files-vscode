@@ -34,43 +34,43 @@
         "commands": [
             {
                 "command": "unsaved-files.show",
-                "title": "Show",
-                "category": "Unsaved Files"
+                "title": "%unsaved-files-vscode.show.title%",
+                "category": "%unsaved-files-vscode.title%"
             },
             {
                 "command": "unsaved-files.showNext",
-                "title": "Show Next",
-                "category": "Unsaved Files"
+                "title": "%unsaved-files-vscode.showNext.title%",
+                "category": "%unsaved-files-vscode.title%"
             },
             {
                 "command": "unsaved-files.showPrevious",
-                "title": "Show Previous",
-                "category": "Unsaved Files"
+                "title": "%unsaved-files-vscode.showPrevious.title%",
+                "category": "%unsaved-files-vscode.title%"
             }
         ],
         "configuration": [
             {
-                "title": "Unsaved Files",
+                "title": "%unsaved-files-vscode.title%",
                 "properties": {
                     "unsaved-files.statusBar.enabled": {
                         "type": "boolean",
                         "default": true,
-                        "description": "Enable/Disable unsaved files count in status bar"
+                        "description": "%unsaved-files.statusBar.enabled.description%"
                     },
                     "unsaved-files.statusBar.noUnsavedFilesStatusLabel": {
                         "type": "string",
                         "default": "$(check)",
-                        "description": "no unsaved files's label"
+                        "description": "%unsaved-files.statusBar.noUnsavedFilesStatusLabel.description%"
                     },
                     "unsaved-files.statusBar.anyUnsavedFilesStatusLabel": {
                         "type": "string",
                         "default": "$(primitive-dot)",
-                        "description": "any unsaved files's label"
+                        "description": "%unsaved-files.statusBar.anyUnsavedFilesStatusLabel.description%"
                     },
                     "unsaved-files.statusBar.label": {
                         "type": "string",
-                        "default": "unsaved:",
-                        "description": "unsaved's label"
+                        "default": "%unsaved-files.statusBar.label.default%",
+                        "description": "%unsaved-files.statusBar.label.description%"
                     }
                 }
             }

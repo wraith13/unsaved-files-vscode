@@ -1,0 +1,15 @@
+{
+    "unsaved-files-vscode.title": "Unsaved Files",
+    "unsaved-files-vscode.show.title": "Show",
+    "unsaved-files-vscode.showNext.title": "Show Next",
+    "unsaved-files-vscode.showPrevious.title": "Show Previsou",
+    "unsaved-files.statusBar.enabled.description": "Enable/Disable unsaved files count in status bar",
+    "unsaved-files.statusBar.noUnsavedFilesStatusLabel.description": "No unsaved files's label",
+    "unsaved-files.statusBar.anyUnsavedFilesStatusLabel.description": "Any unsaved files's label",
+    "unsaved-files.statusBar.label.default": "Unsaved:",
+    "unsaved-files.statusBar.label.description": "Unsaved's label",
+    "statusbar.show.tooltip": "Show unsaved files",
+    "statusbar.showNext.tooltip": "Show {0}",
+    "noUnsavedFiles.message": "No unsaved files",
+    "selectUnsavedFiles.placeHolder": "Select a unsaved file"
+}
