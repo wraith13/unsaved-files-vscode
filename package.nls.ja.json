@@ -1,0 +1,15 @@
+{
+    "unsaved-files-vscode.title": "未保存ファイル",
+    "unsaved-files-vscode.show.title": "表示",
+    "unsaved-files-vscode.showNext.title": "次を表示",
+    "unsaved-files-vscode.showPrevious.title": "前を表示",
+    "unsaved-files.statusBar.enabled.description": "ステータスバーでの未保存ファイル数表示",
+    "unsaved-files.statusBar.noUnsavedFilesStatusLabel.description": "未保存ファイルが無い時のステータスバーでのマーク",
+    "unsaved-files.statusBar.anyUnsavedFilesStatusLabel.description": "未保存ファイルが有る時のステータスバーでのマーク",
+    "unsaved-files.statusBar.label.default": "未保存:",
+    "unsaved-files.statusBar.label.description": "未保存ラベル",
+    "statusbar.show.tooltip": "未保存ファイルを表示",
+    "statusbar.showNext.tooltip": "{0} を表示",
+    "noUnsavedFiles.message": "未保存ファイルがありません",
+    "selectUnsavedFiles.placeHolder": "未保存ファイルを選択してください。"
+}
