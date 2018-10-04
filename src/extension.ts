@@ -214,12 +214,15 @@ export module UnsavedFiles
 
     export async function show() : Promise<void>
     {
-        if (unsavedDocuments.length <= 0)
+        switch(unsavedDocuments.length)
         {
+        case 0:
             await showNoUnsavedFilesMessage();
-        }
-        else
-        {
+            break;
+        case 1:
+            await vscode.window.showTextDocument(unsavedDocuments[0]);
+            break;
+        default:
             const selected = await vscode.window.showQuickPick
             (
                 unsavedDocuments.map
@@ -242,6 +245,7 @@ export module UnsavedFiles
             {
                 await vscode.window.showTextDocument(selected.document);
             }
+            break;
         }
     }
     export async function showNext() : Promise<void>
