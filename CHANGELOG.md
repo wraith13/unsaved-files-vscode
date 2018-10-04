@@ -4,6 +4,20 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.5.0 - 2018-10-05
+
+### Added
+
+- support Japanese.
+
+### Changed
+
+- changed behavior when there is only one unsaved file.
+
+### Fixed
+
+- fixed Show Next/Previous status bar buttons do not disappear bug.
+
 ## 1.4.0 - 2018-09-25
 
 ### Added
