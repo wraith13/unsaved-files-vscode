@@ -168,7 +168,15 @@ export module UnsavedFiles
             }
         }
 
-        if (0 < unsavedDocuments.length)
+        if
+        (
+            0 < unsavedDocuments.length &&
+            (
+                1 < unsavedDocuments.length ||
+                !activeTextEditor ||
+                unsavedDocuments[0] !== activeTextEditor.document
+            )
+        )
         {
             const sortedUnsavedDocuments = unsavedDocuments
                 .map(i => i) // 元の配列の順番を壊さない為に一次配列を作成する
@@ -191,12 +199,22 @@ export module UnsavedFiles
     {
         if (getStatusBarEnabled())
         {
-            previousLabel.tooltip = previousUnsavedDocument && localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, previousUnsavedDocument.fileName) || "";
-            previousLabel.show();
-            unsavedFilesLabel.text = getUnsavedFilesLabelText();
-            unsavedFilesLabel.show();
-            nextLabel.tooltip = nextUnsavedDocument && localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, nextUnsavedDocument.fileName) || "";
-            nextLabel.show();
+            if (previousUnsavedDocument && nextUnsavedDocument)
+            {
+                previousLabel.tooltip = localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, previousUnsavedDocument.fileName);
+                previousLabel.show();
+                unsavedFilesLabel.text = getUnsavedFilesLabelText();
+                unsavedFilesLabel.show();
+                nextLabel.tooltip = localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, nextUnsavedDocument.fileName);
+                nextLabel.show();
+            }
+            else
+            {
+                previousLabel.hide();
+                unsavedFilesLabel.text = getUnsavedFilesLabelText();
+                unsavedFilesLabel.show();
+                nextLabel.hide();
+            }
         }
         else
         {
