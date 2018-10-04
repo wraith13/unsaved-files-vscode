@@ -200,7 +200,9 @@ export module UnsavedFiles
         }
         else
         {
+            previousLabel.hide();
             unsavedFilesLabel.hide();
+            nextLabel.hide();
         }
     }
 
