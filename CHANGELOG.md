@@ -4,6 +4,12 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.5.1 - 2018-10-??
+
+### Changed
+
+- improved behavior when there is only one unsaved file.
+
 ## 1.5.0 - 2018-10-05
 
 ### Added
