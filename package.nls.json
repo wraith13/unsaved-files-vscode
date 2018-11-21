@@ -2,7 +2,7 @@
     "unsaved-files-vscode.title": "Unsaved Files",
     "unsaved-files-vscode.show.title": "Show",
     "unsaved-files-vscode.showNext.title": "Show Next",
-    "unsaved-files-vscode.showPrevious.title": "Show Previsou",
+    "unsaved-files-vscode.showPrevious.title": "Show Previous",
     "unsaved-files.statusBar.enabled.description": "Enable/Disable unsaved files count in status bar",
     "unsaved-files.statusBar.noUnsavedFilesStatusLabel.description": "No unsaved files's label",
     "unsaved-files.statusBar.anyUnsavedFilesStatusLabel.description": "Any unsaved files's label",
