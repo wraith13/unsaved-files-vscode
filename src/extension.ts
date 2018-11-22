@@ -191,7 +191,7 @@ export module UnsavedFiles
     {
         if (getStatusBarEnabled())
         {
-            if (previousUnsavedDocument && nextUnsavedDocument)
+            if (1 < unsavedDocuments.length && previousUnsavedDocument && nextUnsavedDocument)
             {
                 previousLabel.tooltip = localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, previousUnsavedDocument.fileName);
                 previousLabel.show();
