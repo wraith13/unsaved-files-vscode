@@ -168,7 +168,7 @@ export module UnsavedFiles
             }
         }
 
-        if (1 < unsavedDocuments.length)
+        if (0 < unsavedDocuments.length)
         {
             const sortedUnsavedDocuments = unsavedDocuments
                 .map(i => i) // 元の配列の順番を壊さない為に一次配列を作成する
