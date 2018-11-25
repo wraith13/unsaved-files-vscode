@@ -4,7 +4,17 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## 1.5.1 - 2018-10-??
+## 1.6.0 - 2018-10-26
+
+### Changed
+
+- changed behavior of Show Next/Previous when there is only one unsaved file.
+
+### Fixed
+
+- fixed spelling error of the word "previous" in the command palette.( Thanks @kneckinator )
+
+## 1.5.1 - 2018-10-08
 
 ### Changed
 
