@@ -7,7 +7,7 @@
     "publisher": "wraith13",
     "license": "SEE LICENSE IN LICENSE_1_0.txt",
     "engines": {
-        "vscode": "^1.9.1"
+        "vscode": "^1.30.0"
     },
     "bugs": {
         "url": "https://github.com/wraith13/unsaved-files-vscode/issues"
@@ -31,6 +31,14 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
+        "views": {
+            "explorer": [
+                {
+                "id": "unsaved-files",
+                "name": "%unsaved-files-vscode.title%"
+                }
+            ]
+        },
         "commands": [
             {
                 "command": "unsaved-files.show",

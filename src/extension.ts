@@ -29,6 +29,40 @@ export module UnsavedFiles
     let nextLabel : vscode.StatusBarItem;
     let previousLabel : vscode.StatusBarItem;
 
+    class UnsavedFilesProvider implements vscode.TreeDataProvider<vscode.TreeItem>
+    {
+        private onDidChangeTreeDataEventEmitter = new vscode.EventEmitter<vscode.TreeItem | undefined>();
+        readonly onDidChangeTreeData = this.onDidChangeTreeDataEventEmitter.event;
+
+        getTreeItem(element: vscode.TreeItem): vscode.TreeItem | Thenable<vscode.TreeItem>
+        {
+            element.resourceUri
+            return element;
+        }
+        getChildren(_element?: vscode.TreeItem | undefined): vscode.ProviderResult<vscode.TreeItem[]>
+        {
+            return unsavedDocuments.map
+            (
+                i => pass_through =
+                {
+                    label: stripDirectory(i.fileName),
+                    resourceUri: i.uri,
+                    description: stripFileName
+                    (
+                        vscode.workspace.rootPath ?
+                            i.fileName.replace(new RegExp("^" +vscode.workspace.rootPath.replace(/([\!\"\#\$\%\&\'\(\)\~\^\|\\\[\]\{\}\+\*\,\.\/])/g, "\\$1")),""):
+                            i.fileName
+                    )
+                    .replace(/^[\/\\]*/, "")
+                    .replace(/[\/\\]*$/, ""),
+                }
+            );
+        }
+
+        update = () => this.onDidChangeTreeDataEventEmitter.fire();
+    }
+    let unsavedFilesProvider = new UnsavedFilesProvider();
+
     function getConfiguration<type>(key? : string, section : string = applicationKey) : type
     {
         const configuration = vscode.workspace.getConfiguration(section);
@@ -116,6 +150,9 @@ export module UnsavedFiles
                 }
             ),
 
+            //  TreeDataProovider の登録
+            vscode.window.registerTreeDataProvider(applicationKey, unsavedFilesProvider),
+
             //  イベントリスナーの登録
             vscode.window.onDidChangeActiveTextEditor(() => updateUnsavedDocumentsOrder()),
             vscode.workspace.onDidOpenTextDocument(() => updateUnsavedDocuments()),
@@ -194,6 +231,7 @@ export module UnsavedFiles
         }
 
         updateStatusBar();
+        unsavedFilesProvider.update();
     }
 
     export function updateStatusBar() : void
