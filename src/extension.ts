@@ -68,6 +68,15 @@ export module UnsavedFiles
         return result;
     }
 
+    async function showTextDocument(textDocument : vscode.TextDocument) : Promise<vscode.TextEditor>
+    {
+        return await vscode.window.showTextDocument
+        (
+            textDocument,
+            undefined
+        );
+    }
+
     export function initialize(context : vscode.ExtensionContext): void
     {
         const showCommandKey = `${applicationKey}.show`;
@@ -230,7 +239,7 @@ export module UnsavedFiles
             await showNoUnsavedFilesMessage();
             break;
         case 1:
-            await vscode.window.showTextDocument(unsavedDocuments[0]);
+            await showTextDocument(unsavedDocuments[0]);
             break;
         default:
             const selected = await vscode.window.showQuickPick
@@ -253,7 +262,7 @@ export module UnsavedFiles
             );
             if (selected)
             {
-                await vscode.window.showTextDocument(selected.document);
+                await showTextDocument(selected.document);
             }
             break;
         }
@@ -262,7 +271,7 @@ export module UnsavedFiles
     {
         if (nextUnsavedDocument)
         {
-            await vscode.window.showTextDocument(nextUnsavedDocument);
+            await showTextDocument(nextUnsavedDocument);
         }
         else
         {
@@ -273,7 +282,7 @@ export module UnsavedFiles
     {
         if (previousUnsavedDocument)
         {
-            await vscode.window.showTextDocument(previousUnsavedDocument);
+            await showTextDocument(previousUnsavedDocument);
         }
         else
         {
