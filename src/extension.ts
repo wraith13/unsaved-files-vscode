@@ -41,28 +41,34 @@ export module UnsavedFiles
         }
         getChildren(_element?: vscode.TreeItem | undefined): vscode.ProviderResult<vscode.TreeItem[]>
         {
-            return unsavedDocuments.map
-            (
-                i => pass_through =
-                {
-                    label: stripDirectory(i.fileName),
-                    resourceUri: i.uri,
-                    description: stripFileName
-                    (
-                        vscode.workspace.rootPath ?
-                            i.fileName.replace(new RegExp("^" +vscode.workspace.rootPath.replace(/([\!\"\#\$\%\&\'\(\)\~\^\|\\\[\]\{\}\+\*\,\.\/])/g, "\\$1")),""):
-                            i.fileName
-                    )
-                    .replace(/^[\/\\]*/, "")
-                    .replace(/[\/\\]*$/, ""),
-                    command:
+            return 0 < unsavedDocuments.length ?
+                unsavedDocuments.map
+                (
+                    i => pass_through =
                     {
-                        title: "show",
-                        command: "vscode.open",
-                        arguments:[i.uri]
-                    },
-                }
-            );
+                        label: stripDirectory(i.fileName),
+                        resourceUri: i.uri,
+                        description: stripFileName
+                        (
+                            vscode.workspace.rootPath ?
+                                i.fileName.replace(new RegExp("^" +vscode.workspace.rootPath.replace(/([\!\"\#\$\%\&\'\(\)\~\^\|\\\[\]\{\}\+\*\,\.\/])/g, "\\$1")),""):
+                                i.fileName
+                        )
+                        .replace(/^[\/\\]*/, "")
+                        .replace(/[\/\\]*$/, ""),
+                        command:
+                        {
+                            title: "show",
+                            command: "vscode.open",
+                            arguments:[i.uri]
+                        },
+                    }
+                ):
+                [
+                    {
+                        label: localeString("noUnsavedFiles.message"),
+                    }
+                ];
         }
 
         update = () => this.onDidChangeTreeDataEventEmitter.fire();
