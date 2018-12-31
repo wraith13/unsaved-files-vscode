@@ -55,6 +55,12 @@ export module UnsavedFiles
                     )
                     .replace(/^[\/\\]*/, "")
                     .replace(/[\/\\]*$/, ""),
+                    command:
+                    {
+                        title: "show",
+                        command: "vscode.open",
+                        arguments:[i.uri]
+                    },
                 }
             );
         }
