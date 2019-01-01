@@ -36,13 +36,14 @@ export module UnsavedFiles
 
         getTreeItem(element: vscode.TreeItem): vscode.TreeItem | Thenable<vscode.TreeItem>
         {
-            element.resourceUri
             return element;
         }
         getChildren(_element?: vscode.TreeItem | undefined): vscode.ProviderResult<vscode.TreeItem[]>
         {
-            return 0 < unsavedDocuments.length ?
-                unsavedDocuments.map
+            //  unsavedDocuments は他の処理全般の都合でソートされており、順番がちょくちょく変わって view に表示するのに適さないので getUnsavedDocumentsSource() を直接利用する。
+            const unsavedDocumentsSource = getUnsavedDocumentsSource();
+            return 0 < unsavedDocumentsSource.length ?
+                unsavedDocumentsSource.map
                 (
                     i => pass_through =
                     {
