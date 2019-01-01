@@ -8,6 +8,7 @@
     "unsaved-files.statusBar.anyUnsavedFilesStatusLabel.description": "Any unsaved files's label",
     "unsaved-files.statusBar.label.default": "Unsaved:",
     "unsaved-files.statusBar.label.description": "Unsaved's label",
+    "unsaved-files.viewOnExplorer.enabled.description": "Enable/Disable unsaved files in view on explorer",
     "statusbar.show.tooltip": "Show unsaved files",
     "statusbar.showNext.tooltip": "Show {0}",
     "noUnsavedFiles.message": "No unsaved files",

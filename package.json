@@ -34,8 +34,9 @@
         "views": {
             "explorer": [
                 {
-                "id": "unsaved-files",
-                "name": "%unsaved-files-vscode.title%"
+                    "id": "unsaved-files",
+                    "name": "%unsaved-files-vscode.title%",
+                    "when": "showUnsavedFilesViewOnexplorer"
                 }
             ]
         },
@@ -79,6 +80,11 @@
                         "type": "string",
                         "default": "%unsaved-files.statusBar.label.default%",
                         "description": "%unsaved-files.statusBar.label.description%"
+                    },
+                    "unsaved-files.viewOnExplorer.enabled": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "%unsaved-files.viewOnExplorer.enabled.description%"
                     }
                 }
             }
