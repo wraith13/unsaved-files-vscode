@@ -1,4 +1,4 @@
-# Unsaved Files README
+﻿# Unsaved Files README
 
 [![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version/wraith13.unsaved-files-vscode.svg) ![installs](https://vsmarketplacebadge.apphb.com/installs/wraith13.unsaved-files-vscode.svg) ![rating](https://vsmarketplacebadge.apphb.com/rating/wraith13.unsaved-files-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=wraith13.unsaved-files-vscode)
 
@@ -6,9 +6,11 @@ Easy access to unsaved files for vscode.
 
 ## Features
 
-* `Unsaved Files: Show` show unsaved files
-* `Unsaved Files: Show Next` show next unsaved file
-* `Unsaved Files: Show Previous` show previous unsaved file
+* show unsaved files from command pallete
+* show unsaved files from status bar
+* show unsaved files from view on explorer
+
+![screen shot: View on Explorer](./images/screenshot3.png)
 
 ![screen shot: Show](./images/screenshot.png)
 
@@ -37,6 +39,8 @@ Enjoy!
 * `Unsaved Files: Show` : show unsaved files
 * `Unsaved Files: Show Next` show next unsaved file
 * `Unsaved Files: Show Previous` show previous unsaved file
+* `Unsaved Files: Show View` show view on explorer
+* `Unsaved Files: Hide View` hide view on explorer
 
 ## Extension Settings
 
@@ -46,6 +50,7 @@ This extension contributes the following settings by [`settings.json`](https://c
 * `unsaved-files.statusBar.noUnsavedFilesStatusLabel`: set no unsaved files's label
 * `unsaved-files.statusBar.anyUnsavedFilesStatusLabel`: set any unsaved files's label
 * `unsaved-files.statusBar.label`: set unsaved's label
+* `unsaved-files.viewOnExplorer.enabled`: set Enable/Disable unsaved files in view on explorer
 
 You can embed icons in the label text by leveraging the syntax:
 
