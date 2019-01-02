@@ -87,6 +87,7 @@ export module UnsavedFiles
     const getStatusBarLabel = () : string => getConfiguration<string>("label", `${applicationKey}.statusBar`);
     const getStatusBarEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.statusBar`);
     const getViewOnExplorerEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.viewOnExplorer`);
+    const setViewOnExplorerEnabled = async (enabled : boolean) : Promise<void> => await vscode.workspace.getConfiguration(`${applicationKey}.viewOnExplorer`).update("enabled", enabled, true);
 
     function createStatusBarItem
     (
@@ -137,6 +138,8 @@ export module UnsavedFiles
             vscode.commands.registerCommand(showCommandKey, show),
             vscode.commands.registerCommand(showNextCommandKey, showNext),
             vscode.commands.registerCommand(showPreviousCommandKey, showPrevious),
+            vscode.commands.registerCommand(`${applicationKey}.showView`, showView),
+            vscode.commands.registerCommand(`${applicationKey}.hideView`, hideView),
 
             //  ステータスバーアイテムの登録
             unsavedFilesLabel = createStatusBarItem
@@ -193,9 +196,10 @@ export module UnsavedFiles
         `${unsavedDocuments.length}`
     ].filter(i => 0 < i.length).join(" ");
 
+    const getUnsavedDocumentsSource = () => vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
     function updateUnsavedDocuments() : void
     {
-        const unsavedDocumentsSource = vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
+        const unsavedDocumentsSource = getUnsavedDocumentsSource();
         const oldUnsavedDocumentsFileName = unsavedDocuments
             .map(i => i.fileName);
         //  既知のドキュメントの情報を新しいオブジェクトに差し替えつつ、消えたドキュメントを間引く
@@ -358,6 +362,8 @@ export module UnsavedFiles
             await showNoUnsavedFilesMessage();
         }
     }
+    const showView = async () : Promise<void> => await setViewOnExplorerEnabled(true);
+    const hideView = async () : Promise<void> => await setViewOnExplorerEnabled(false);
 
     //  dummy for test
     export function roundZoom(value : number) : number

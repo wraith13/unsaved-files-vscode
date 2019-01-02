@@ -55,6 +55,16 @@
                 "command": "unsaved-files.showPrevious",
                 "title": "%unsaved-files-vscode.showPrevious.title%",
                 "category": "%unsaved-files-vscode.title%"
+            },
+            {
+                "command": "unsaved-files.showView",
+                "title": "%unsaved-files-vscode.showView.title%",
+                "category": "%unsaved-files-vscode.title%"
+            },
+            {
+                "command": "unsaved-files.hideView",
+                "title": "%unsaved-files-vscode.hideView.title%",
+                "category": "%unsaved-files-vscode.title%"
             }
         ],
         "configuration": [
