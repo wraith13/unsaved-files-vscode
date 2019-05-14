@@ -4,6 +4,12 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## ?.?.? - 2019-05-15
+
+### Fixed
+
+- Fixed an issue that the header does not display correctly in the extended information display in VS Code.
+
 ## 2.0.0 - 2019-01-03
 
 ### Added
