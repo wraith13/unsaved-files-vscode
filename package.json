@@ -29,7 +29,7 @@
     "activationEvents": [
         "*"
     ],
-    "main": "./out/src/extension",
+    "main": "./out/source/extension",
     "contributes": {
         "views": {
             "explorer": [
