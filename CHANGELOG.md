@@ -4,7 +4,11 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## ?.?.? - 2019-05-15
+## ?.?.? - 2019-??-??
+
+### Added
+
+- show untitled document digest in view on explorer.
 
 ### Fixed
 

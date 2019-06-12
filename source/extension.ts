@@ -49,14 +49,16 @@ export module UnsavedFiles
                     {
                         label: stripDirectory(i.fileName),
                         resourceUri: i.uri,
-                        description: stripFileName
-                        (
-                            vscode.workspace.rootPath ?
-                                i.fileName.replace(new RegExp("^" +vscode.workspace.rootPath.replace(/([\!\"\#\$\%\&\'\(\)\~\^\|\\\[\]\{\}\+\*\,\.\/])/g, "\\$1")),""):
-                                i.fileName
-                        )
-                        .replace(/^[\/\\]*/, "")
-                        .replace(/[\/\\]*$/, ""),
+                        description: i.isUntitled ?
+                            digest(i.getText()):
+                            stripFileName
+                            (
+                                vscode.workspace.rootPath ?
+                                    i.fileName.replace(new RegExp("^" +vscode.workspace.rootPath.replace(/([\!\"\#\$\%\&\'\(\)\~\^\|\\\[\]\{\}\+\*\,\.\/])/g, "\\$1")),""):
+                                    i.fileName
+                            )
+                            .replace(/^[\/\\]*/, "")
+                            .replace(/[\/\\]*$/, ""),
                         command:
                         {
                             title: "show",
