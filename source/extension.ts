@@ -18,8 +18,6 @@ const localeString = (key : string) : string => localeTable[key] || key;
 
 export module UnsavedFiles
 {
-    let pass_through;
-
     const applicationKey = "unsaved-files";
     let unsavedDocuments : vscode.TextDocument[] = [];
     let nextUnsavedDocument : vscode.TextDocument | null = null;
@@ -45,8 +43,8 @@ export module UnsavedFiles
             return 0 < unsavedDocumentsSource.length ?
                 unsavedDocumentsSource.map
                 (
-                    i => pass_through =
-                    {
+                    i =>
+                    ({
                         label: stripDirectory(i.fileName),
                         resourceUri: i.uri,
                         description: i.isUntitled ?
@@ -65,13 +63,11 @@ export module UnsavedFiles
                             command: "vscode.open",
                             arguments:[i.uri]
                         },
-                    }
+                    })
                 ):
-                [
-                    {
-                        label: localeString("noUnsavedFiles.message"),
-                    }
-                ];
+                [{
+                    label: localeString("noUnsavedFiles.message"),
+                }];
         }
 
         update = () => this.onDidChangeTreeDataEventEmitter.fire();
@@ -145,29 +141,23 @@ export module UnsavedFiles
 
             //  ステータスバーアイテムの登録
             unsavedFilesLabel = createStatusBarItem
-            (
-                {
-                    alignment: vscode.StatusBarAlignment.Left,
-                    command: showCommandKey,
-                    tooltip: localeString("statusbar.show.tooltip")
-                }
-            ),
+            ({
+                alignment: vscode.StatusBarAlignment.Left,
+                command: showCommandKey,
+                tooltip: localeString("statusbar.show.tooltip")
+            }),
             nextLabel = createStatusBarItem
-            (
-                {
-                    alignment: vscode.StatusBarAlignment.Left,
-                    text: "$(triangle-right)",
-                    command: showNextCommandKey
-                }
-            ),
+            ({
+                alignment: vscode.StatusBarAlignment.Left,
+                text: "$(triangle-right)",
+                command: showNextCommandKey
+            }),
             previousLabel = createStatusBarItem
-            (
-                {
-                    alignment: vscode.StatusBarAlignment.Left,
-                    text: "$(triangle-left)",
-                    command: showPreviousCommandKey
-                }
-            ),
+            ({
+                alignment: vscode.StatusBarAlignment.Left,
+                text: "$(triangle-left)",
+                command: showPreviousCommandKey
+            }),
 
             //  TreeDataProovider の登録
             vscode.window.registerTreeDataProvider(applicationKey, unsavedFilesProvider),
@@ -321,15 +311,15 @@ export module UnsavedFiles
             (
                 unsavedDocuments.map
                 (
-                    i => pass_through =
-                    {
+                    i =>
+                    ({
                         label: `$(primitive-dot) $(file-text) ${stripDirectory(i.fileName)}`,
                         description: i.isUntitled ?
                             digest(i.getText()):
                             stripFileName(i.fileName),
                         detail: i.languageId,
                         document: i
-                    }
+                    })
                 ),
                 {
                     placeHolder: localeString("selectUnsavedFiles.placeHolder"),
