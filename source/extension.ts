@@ -74,20 +74,20 @@ export module UnsavedFiles
     }
     let unsavedFilesProvider = new UnsavedFilesProvider();
 
-    function getConfiguration<type>(key? : string, section : string = applicationKey) : type
+    const getConfiguration = <type>(key? : string, section : string = applicationKey) : type =>
     {
         const configuration = vscode.workspace.getConfiguration(section);
         return key ?
             configuration[key] :
             configuration;
-    }
+    };
 
     const getStatusBarLabel = () : string => getConfiguration<string>("label", `${applicationKey}.statusBar`);
     const getStatusBarEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.statusBar`);
     const getViewOnExplorerEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.viewOnExplorer`);
     const setViewOnExplorerEnabled = async (enabled : boolean) : Promise<void> => await vscode.workspace.getConfiguration(`${applicationKey}.viewOnExplorer`).update("enabled", enabled, true);
 
-    function createStatusBarItem
+    const createStatusBarItem =
     (
         properties :
         {
@@ -97,7 +97,7 @@ export module UnsavedFiles
             tooltip ? : string
         }
     )
-    : vscode.StatusBarItem
+    : vscode.StatusBarItem =>
     {
         const result = vscode.window.createStatusBarItem(properties.alignment);
         if (undefined !== properties.text)
@@ -113,18 +113,15 @@ export module UnsavedFiles
             result.tooltip = properties.tooltip;
         }
         return result;
-    }
+    };
 
-    async function showTextDocument(textDocument : vscode.TextDocument) : Promise<vscode.TextEditor>
-    {
-        return await vscode.window.showTextDocument
-        (
-            textDocument,
-            undefined
-        );
-    }
+    const showTextDocument = async (textDocument : vscode.TextDocument) : Promise<vscode.TextEditor> => await vscode.window.showTextDocument
+    (
+        textDocument,
+        undefined
+    );
 
-    export function initialize(context : vscode.ExtensionContext): void
+    export const initialize = (context : vscode.ExtensionContext): void =>
     {
         const showCommandKey = `${applicationKey}.show`;
         const showNextCommandKey = `${applicationKey}.showNext`;
@@ -173,7 +170,7 @@ export module UnsavedFiles
 
         updateViewOnExplorer();
         updateUnsavedDocuments();
-    }
+    };
 
     const getUnsavedFilesLabelText = () : string =>
     [
@@ -189,7 +186,7 @@ export module UnsavedFiles
     ].filter(i => 0 < i.length).join(" ");
 
     const getUnsavedDocumentsSource = () => vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
-    function updateUnsavedDocuments() : void
+    const updateUnsavedDocuments = () : void =>
     {
         const unsavedDocumentsSource = getUnsavedDocumentsSource();
         const oldUnsavedDocumentsFileName = unsavedDocuments
@@ -205,9 +202,9 @@ export module UnsavedFiles
             .concat(unsavedDocuments);
 
         updateUnsavedDocumentsOrder();
-    }
+    };
     
-    function updateUnsavedDocumentsOrder() : void
+    const updateUnsavedDocumentsOrder = () : void =>
     {
         //  アクティブなドキュメントを先頭へ
         const activeTextEditor = vscode.window.activeTextEditor;
@@ -243,15 +240,15 @@ export module UnsavedFiles
 
         updateStatusBar();
         unsavedFilesProvider.update();
-    }
+    };
 
-    function onDidChangeConfiguration() : void
+    const onDidChangeConfiguration = () : void =>
     {
         updateViewOnExplorer();
         updateStatusBar();
     }
 
-    export function updateStatusBar() : void
+    export const updateStatusBar = () : void =>
     {
         if (getStatusBarEnabled())
         {
@@ -278,9 +275,9 @@ export module UnsavedFiles
             unsavedFilesLabel.hide();
             nextLabel.hide();
         }
-    }
+    };
 
-    function updateViewOnExplorer() : void
+    const updateViewOnExplorer = () : void =>
     {
         vscode.commands.executeCommand
         (
@@ -288,7 +285,7 @@ export module UnsavedFiles
             "showUnsavedFilesViewOnexplorer",
             getViewOnExplorerEnabled()
         );
-    }
+    };
 
     const showNoUnsavedFilesMessage = async () => await vscode.window.showInformationMessage(localeString("noUnsavedFiles.message"));
 
@@ -296,7 +293,7 @@ export module UnsavedFiles
     const stripDirectory = (path : string) : string => path.split('\\').reverse()[0].split('/').reverse()[0];
     const digest = (text : string) : string => text.replace(/\s+/g, " ").substr(0, 128);
 
-    export async function show() : Promise<void>
+    export const show = async () : Promise<void> =>
     {
         switch(unsavedDocuments.length)
         {
@@ -331,8 +328,8 @@ export module UnsavedFiles
             }
             break;
         }
-    }
-    export async function showNext() : Promise<void>
+    };
+    export const showNext = async () : Promise<void> =>
     {
         if (nextUnsavedDocument)
         {
@@ -342,8 +339,8 @@ export module UnsavedFiles
         {
             await showNoUnsavedFilesMessage();
         }
-    }
-    export async function showPrevious() : Promise<void>
+    };
+    export const showPrevious = async () : Promise<void> =>
     {
         if (previousUnsavedDocument)
         {
@@ -353,23 +350,23 @@ export module UnsavedFiles
         {
             await showNoUnsavedFilesMessage();
         }
-    }
+    };
     const showView = async () : Promise<void> => await setViewOnExplorerEnabled(true);
     const hideView = async () : Promise<void> => await setViewOnExplorerEnabled(false);
 
     //  dummy for test
-    export function roundZoom(value : number) : number
+    export const roundZoom = (value : number) : number =>
     {
         const cent = 100.0;
         return Math.round(value *cent) /cent;
-    }
+    };
 }
 
-export function activate(context: vscode.ExtensionContext) : void
+export const activate = (context: vscode.ExtensionContext) : void =>
 {
     UnsavedFiles.initialize(context);
-}
+};
 
-export function deactivate() : void
+export const deactivate = () : void =>
 {
-}
+};
