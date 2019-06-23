@@ -293,6 +293,24 @@ export module UnsavedFiles
     const stripDirectory = (path : string) : string => path.split('\\').reverse()[0].split('/').reverse()[0];
     const digest = (text : string) : string => text.replace(/\s+/g, " ").substr(0, 128);
 
+    const showQuickPickUnsavedDocument = () => vscode.window.showQuickPick
+    (
+        unsavedDocuments.map
+        (
+            i =>
+            ({
+                label: `$(primitive-dot) $(file-text) ${stripDirectory(i.fileName)}`,
+                description: i.isUntitled ?
+                    digest(i.getText()):
+                    stripFileName(i.fileName),
+                detail: i.languageId,
+                document: i
+            })
+        ),
+        {
+            placeHolder: localeString("selectUnsavedFiles.placeHolder"),
+        }
+    );
     export const show = async () : Promise<void> =>
     {
         switch(unsavedDocuments.length)
@@ -304,24 +322,7 @@ export module UnsavedFiles
             await showTextDocument(unsavedDocuments[0]);
             break;
         default:
-            const selected = await vscode.window.showQuickPick
-            (
-                unsavedDocuments.map
-                (
-                    i =>
-                    ({
-                        label: `$(primitive-dot) $(file-text) ${stripDirectory(i.fileName)}`,
-                        description: i.isUntitled ?
-                            digest(i.getText()):
-                            stripFileName(i.fileName),
-                        detail: i.languageId,
-                        document: i
-                    })
-                ),
-                {
-                    placeHolder: localeString("selectUnsavedFiles.placeHolder"),
-                }
-            );
+            const selected = await showQuickPickUnsavedDocument();
             if (selected)
             {
                 await showTextDocument(selected.document);
