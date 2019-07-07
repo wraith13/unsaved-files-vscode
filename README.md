@@ -41,6 +41,7 @@ Enjoy!
 * `Unsaved Files: Show Previous` show previous unsaved file
 * `Unsaved Files: Show View` show view on explorer
 * `Unsaved Files: Hide View` hide view on explorer
+* `Unsaved Files: Close` : close unsaved files
 
 ## Extension Settings
 

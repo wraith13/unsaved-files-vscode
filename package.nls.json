@@ -10,6 +10,7 @@
     "unsaved-files.statusBar.label.description": "Unsaved's label",
     "unsaved-files-vscode.showView.title": "Show View",
     "unsaved-files-vscode.hideView.title": "Hide View",
+    "unsaved-files-vscode.close.title": "Close",
     "unsaved-files.viewOnExplorer.enabled.description": "Enable/Disable unsaved files in view on explorer",
     "statusbar.show.tooltip": "Show unsaved files",
     "statusbar.showNext.tooltip": "Show {0}",

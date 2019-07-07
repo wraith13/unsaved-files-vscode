@@ -120,12 +120,18 @@ export module UnsavedFiles
         textDocument,
         undefined
     );
+    const closeTextDocument = async (textDocument : vscode.TextDocument) : Promise<vscode.TextEditor> => await vscode.window.closeTextDocument
+    (
+        textDocument,
+        undefined
+    );
 
     export const initialize = (context : vscode.ExtensionContext): void =>
     {
         const showCommandKey = `${applicationKey}.show`;
         const showNextCommandKey = `${applicationKey}.showNext`;
         const showPreviousCommandKey = `${applicationKey}.showPrevious`;
+        const closeCommandKey = `${applicationKey}.close`;
 
         context.subscriptions.push
         (
@@ -135,6 +141,7 @@ export module UnsavedFiles
             vscode.commands.registerCommand(showPreviousCommandKey, showPrevious),
             vscode.commands.registerCommand(`${applicationKey}.showView`, showView),
             vscode.commands.registerCommand(`${applicationKey}.hideView`, hideView),
+            vscode.commands.registerCommand(closeCommandKey, close),
 
             //  ステータスバーアイテムの登録
             unsavedFilesLabel = createStatusBarItem
@@ -354,6 +361,22 @@ export module UnsavedFiles
     };
     const showView = async () : Promise<void> => await setViewOnExplorerEnabled(true);
     const hideView = async () : Promise<void> => await setViewOnExplorerEnabled(false);
+    export const close = async () : Promise<void> =>
+    {
+        switch(unsavedDocuments.length)
+        {
+        case 0:
+            await showNoUnsavedFilesMessage();
+            break;
+        default:
+            const selected = await showQuickPickUnsavedDocument();
+            if (selected)
+            {
+                await closeTextDocument(selected.document);
+            }
+            break;
+        }
+    };
 
     //  dummy for test
     export const roundZoom = (value : number) : number =>

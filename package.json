@@ -65,6 +65,11 @@
                 "command": "unsaved-files.hideView",
                 "title": "%unsaved-files-vscode.hideView.title%",
                 "category": "%unsaved-files-vscode.title%"
+            },
+            {
+                "command": "unsaved-files.close",
+                "title": "%unsaved-files-vscode.close.title%",
+                "category": "%unsaved-files-vscode.title%"
             }
         ],
         "configuration": [
