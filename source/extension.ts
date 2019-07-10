@@ -246,7 +246,7 @@ export module UnsavedFiles
     {
         updateViewOnExplorer();
         updateStatusBar();
-    }
+    };
 
     export const updateStatusBar = () : void =>
     {
