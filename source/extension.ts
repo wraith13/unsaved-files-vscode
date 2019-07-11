@@ -254,6 +254,10 @@ export module UnsavedFiles
         {
             if (1 < unsavedDocuments.length && previousUnsavedDocument && nextUnsavedDocument)
             {
+                if (undefined === previousLabel.tooltip)
+                {
+                    unsavedFilesLabel.hide();
+                }
                 previousLabel.tooltip = localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, previousUnsavedDocument.fileName);
                 previousLabel.show();
                 unsavedFilesLabel.text = getUnsavedFilesLabelText();
@@ -263,16 +267,20 @@ export module UnsavedFiles
             }
             else
             {
+                previousLabel.tooltip = undefined;
                 previousLabel.hide();
                 unsavedFilesLabel.text = getUnsavedFilesLabelText();
                 unsavedFilesLabel.show();
+                nextLabel.tooltip = undefined;
                 nextLabel.hide();
             }
         }
         else
         {
+            previousLabel.tooltip = undefined;
             previousLabel.hide();
             unsavedFilesLabel.hide();
+            nextLabel.tooltip = undefined;
             nextLabel.hide();
         }
     };

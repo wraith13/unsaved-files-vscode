@@ -4,6 +4,12 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 2.1.1 - 2019-07-??
+
+### Fixed
+
+- Fixed an issue that the order of the items on the status bar was broken with VS Code v1.36 or later.
+
 ## 2.1.0 - 2019-06-13
 
 ### Added
