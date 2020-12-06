@@ -70,7 +70,7 @@ export module UnsavedFiles
                 }];
         }
 
-        update = () => this.onDidChangeTreeDataEventEmitter.fire();
+        update = () => this.onDidChangeTreeDataEventEmitter.fire(undefined);
     }
     let unsavedFilesProvider = new UnsavedFilesProvider();
 
