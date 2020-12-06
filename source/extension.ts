@@ -362,13 +362,6 @@ export module UnsavedFiles
     };
     const showView = async () : Promise<void> => await setViewOnExplorerEnabled(true);
     const hideView = async () : Promise<void> => await setViewOnExplorerEnabled(false);
-
-    //  dummy for test
-    export const roundZoom = (value : number) : number =>
-    {
-        const cent = 100.0;
-        return Math.round(value *cent) /cent;
-    };
 }
 
 export const activate = (context: vscode.ExtensionContext) : void =>
