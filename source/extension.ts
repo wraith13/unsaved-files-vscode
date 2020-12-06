@@ -1,11 +1,7 @@
 'use strict';
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-
 import localeEn from "../package.nls.json";
 import localeJa from "../package.nls.ja.json";
-
 interface LocaleEntry
 {
     [key : string] : string;
@@ -15,23 +11,19 @@ const localeTable = Object.assign(localeEn, ((<{[key : string] : LocaleEntry}>{
     ja : localeJa
 })[localeTableKey] || { }));
 const localeString = (key : string) : string => localeTable[key] || key;
-
 export module UnsavedFiles
 {
     const applicationKey = "unsaved-files";
     let unsavedDocuments : vscode.TextDocument[] = [];
     let nextUnsavedDocument : vscode.TextDocument | null = null;
     let previousUnsavedDocument : vscode.TextDocument | null = null;
-
     let unsavedFilesLabel : vscode.StatusBarItem;
     let nextLabel : vscode.StatusBarItem;
     let previousLabel : vscode.StatusBarItem;
-
     class UnsavedFilesProvider implements vscode.TreeDataProvider<vscode.TreeItem>
     {
         private onDidChangeTreeDataEventEmitter = new vscode.EventEmitter<vscode.TreeItem | undefined>();
         readonly onDidChangeTreeData = this.onDidChangeTreeDataEventEmitter.event;
-
         getTreeItem(element: vscode.TreeItem): vscode.TreeItem | Thenable<vscode.TreeItem>
         {
             return element;
@@ -69,11 +61,9 @@ export module UnsavedFiles
                     label: localeString("noUnsavedFiles.message"),
                 }];
         }
-
         update = () => this.onDidChangeTreeDataEventEmitter.fire(undefined);
     }
     let unsavedFilesProvider = new UnsavedFilesProvider();
-
     const getConfiguration = <type>(key? : string, section : string = applicationKey) : type =>
     {
         const configuration = vscode.workspace.getConfiguration(section);
@@ -81,12 +71,10 @@ export module UnsavedFiles
             configuration[key] :
             configuration;
     };
-
     const getStatusBarLabel = () : string => getConfiguration<string>("label", `${applicationKey}.statusBar`);
     const getStatusBarEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.statusBar`);
     const getViewOnExplorerEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.viewOnExplorer`);
     const setViewOnExplorerEnabled = async (enabled : boolean) : Promise<void> => await vscode.workspace.getConfiguration(`${applicationKey}.viewOnExplorer`).update("enabled", enabled, true);
-
     const createStatusBarItem =
     (
         properties :
@@ -114,19 +102,16 @@ export module UnsavedFiles
         }
         return result;
     };
-
     const showTextDocument = async (textDocument : vscode.TextDocument) : Promise<vscode.TextEditor> => await vscode.window.showTextDocument
     (
         textDocument,
         undefined
     );
-
     export const initialize = (context : vscode.ExtensionContext): void =>
     {
         const showCommandKey = `${applicationKey}.show`;
         const showNextCommandKey = `${applicationKey}.showNext`;
         const showPreviousCommandKey = `${applicationKey}.showPrevious`;
-
         context.subscriptions.push
         (
             //  コマンドの登録
@@ -135,7 +120,6 @@ export module UnsavedFiles
             vscode.commands.registerCommand(showPreviousCommandKey, showPrevious),
             vscode.commands.registerCommand(`${applicationKey}.showView`, showView),
             vscode.commands.registerCommand(`${applicationKey}.hideView`, hideView),
-
             //  ステータスバーアイテムの登録
             unsavedFilesLabel = createStatusBarItem
             ({
@@ -155,10 +139,8 @@ export module UnsavedFiles
                 text: "$(triangle-left)",
                 command: showPreviousCommandKey
             }),
-
             //  TreeDataProovider の登録
             vscode.window.registerTreeDataProvider(applicationKey, unsavedFilesProvider),
-
             //  イベントリスナーの登録
             vscode.window.onDidChangeActiveTextEditor(() => updateUnsavedDocumentsOrder()),
             vscode.workspace.onDidOpenTextDocument(() => updateUnsavedDocuments()),
@@ -167,11 +149,9 @@ export module UnsavedFiles
             vscode.workspace.onDidSaveTextDocument(() => updateUnsavedDocuments()),
             vscode.workspace.onDidChangeConfiguration(() => onDidChangeConfiguration())
         );
-
         updateViewOnExplorer();
         updateUnsavedDocuments();
     };
-
     const getUnsavedFilesLabelText = () : string =>
     [
         getConfiguration<string>
@@ -184,7 +164,6 @@ export module UnsavedFiles
         getStatusBarLabel(),
         `${unsavedDocuments.length}`
     ].filter(i => 0 < i.length).join(" ");
-
     const getUnsavedDocumentsSource = () => vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
     const updateUnsavedDocuments = () : void =>
     {
@@ -200,10 +179,8 @@ export module UnsavedFiles
         unsavedDocuments = unsavedDocumentsSource
             .filter(i => oldUnsavedDocumentsFileName.indexOf(i.fileName) < 0)
             .concat(unsavedDocuments);
-
         updateUnsavedDocumentsOrder();
     };
-    
     const updateUnsavedDocumentsOrder = () : void =>
     {
         //  アクティブなドキュメントを先頭へ
@@ -221,13 +198,11 @@ export module UnsavedFiles
                     .concat(unsavedDocuments.filter(i => i.fileName !== activeDocument.fileName));
             }
         }
-
         if (0 < unsavedDocuments.length)
         {
             const sortedUnsavedDocuments = unsavedDocuments
                 .map(i => i) // 元の配列の順番を壊さない為に一次配列を作成する
                 .sort((a, b) => a.fileName.localeCompare(b.fileName));
-
             const currentIndex = sortedUnsavedDocuments.map(i => i.fileName).indexOf(unsavedDocuments[0].fileName);
             nextUnsavedDocument = sortedUnsavedDocuments[(currentIndex +1) % sortedUnsavedDocuments.length];
             previousUnsavedDocument = sortedUnsavedDocuments[(currentIndex -1 +sortedUnsavedDocuments.length) % sortedUnsavedDocuments.length];
@@ -237,17 +212,14 @@ export module UnsavedFiles
             nextUnsavedDocument = null;
             previousUnsavedDocument = null;
         }
-
         updateStatusBar();
         unsavedFilesProvider.update();
     };
-
     const onDidChangeConfiguration = () : void =>
     {
         updateViewOnExplorer();
         updateStatusBar();
     };
-
     export const updateStatusBar = () : void =>
     {
         if (getStatusBarEnabled())
@@ -284,7 +256,6 @@ export module UnsavedFiles
             nextLabel.hide();
         }
     };
-
     const updateViewOnExplorer = () : void =>
     {
         vscode.commands.executeCommand
@@ -294,13 +265,10 @@ export module UnsavedFiles
             getViewOnExplorerEnabled()
         );
     };
-
     const showNoUnsavedFilesMessage = async () => await vscode.window.showInformationMessage(localeString("noUnsavedFiles.message"));
-
     const stripFileName = (path : string) : string => path.substr(0, path.length -stripDirectory(path).length);
     const stripDirectory = (path : string) : string => path.split('\\').reverse()[0].split('/').reverse()[0];
     const digest = (text : string) : string => text.replace(/\s+/g, " ").substr(0, 128);
-
     const showQuickPickUnsavedDocument = () => vscode.window.showQuickPick
     (
         unsavedDocuments.map
@@ -363,12 +331,10 @@ export module UnsavedFiles
     const showView = async () : Promise<void> => await setViewOnExplorerEnabled(true);
     const hideView = async () : Promise<void> => await setViewOnExplorerEnabled(false);
 }
-
 export const activate = (context: vscode.ExtensionContext) : void =>
 {
     UnsavedFiles.initialize(context);
 };
-
 export const deactivate = () : void =>
 {
 };
