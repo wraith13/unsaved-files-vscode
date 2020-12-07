@@ -1,16 +1,11 @@
 'use strict';
 import * as vscode from 'vscode';
+import * as vscel from '@wraith13/vscel';
+import packageJson from "../package.json";
 import localeEn from "../package.nls.json";
 import localeJa from "../package.nls.ja.json";
-interface LocaleEntry
-{
-    [key : string] : string;
-}
-const localeTableKey = <string>JSON.parse(<string>process.env.VSCODE_NLS_CONFIG).locale;
-const localeTable = Object.assign(localeEn, ((<{[key : string] : LocaleEntry}>{
-    ja : localeJa
-})[localeTableKey] || { }));
-const localeString = (key : string) : string => localeTable[key] || key;
+export type LocaleKeyType = keyof typeof localeEn;
+const locale = vscel.locale.make(localeEn, { "ja": localeJa });
 export module UnsavedFiles
 {
     const applicationKey = "unsaved-files";
@@ -58,7 +53,7 @@ export module UnsavedFiles
                     })
                 ):
                 [{
-                    label: localeString("noUnsavedFiles.message"),
+                    label: locale.map("noUnsavedFiles.message"),
                 }];
         }
         update = () => this.onDidChangeTreeDataEventEmitter.fire(undefined);
@@ -75,33 +70,6 @@ export module UnsavedFiles
     const getStatusBarEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.statusBar`);
     const getViewOnExplorerEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.viewOnExplorer`);
     const setViewOnExplorerEnabled = async (enabled : boolean) : Promise<void> => await vscode.workspace.getConfiguration(`${applicationKey}.viewOnExplorer`).update("enabled", enabled, true);
-    const createStatusBarItem =
-    (
-        properties :
-        {
-            alignment ? : vscode.StatusBarAlignment,
-            text ? : string,
-            command ? : string,
-            tooltip ? : string
-        }
-    )
-    : vscode.StatusBarItem =>
-    {
-        const result = vscode.window.createStatusBarItem(properties.alignment);
-        if (undefined !== properties.text)
-        {
-            result.text = properties.text;
-        }
-        if (undefined !== properties.command)
-        {
-            result.command = properties.command;
-        }
-        if (undefined !== properties.tooltip)
-        {
-            result.tooltip = properties.tooltip;
-        }
-        return result;
-    };
     const showTextDocument = async (textDocument : vscode.TextDocument) : Promise<vscode.TextEditor> => await vscode.window.showTextDocument
     (
         textDocument,
@@ -121,19 +89,19 @@ export module UnsavedFiles
             vscode.commands.registerCommand(`${applicationKey}.showView`, showView),
             vscode.commands.registerCommand(`${applicationKey}.hideView`, hideView),
             //  ステータスバーアイテムの登録
-            unsavedFilesLabel = createStatusBarItem
+            unsavedFilesLabel = vscel.statusbar.createItem
             ({
                 alignment: vscode.StatusBarAlignment.Left,
                 command: showCommandKey,
-                tooltip: localeString("statusbar.show.tooltip")
+                tooltip: locale.map("statusbar.show.tooltip")
             }),
-            nextLabel = createStatusBarItem
+            nextLabel = vscel.statusbar.createItem
             ({
                 alignment: vscode.StatusBarAlignment.Left,
                 text: "$(triangle-right)",
                 command: showNextCommandKey
             }),
-            previousLabel = createStatusBarItem
+            previousLabel = vscel.statusbar.createItem
             ({
                 alignment: vscode.StatusBarAlignment.Left,
                 text: "$(triangle-left)",
@@ -230,11 +198,11 @@ export module UnsavedFiles
                 {
                     unsavedFilesLabel.hide();
                 }
-                previousLabel.tooltip = localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, previousUnsavedDocument.fileName);
+                previousLabel.tooltip = locale.map("statusbar.showNext.tooltip").replace(/\{0\}/g, previousUnsavedDocument.fileName);
                 previousLabel.show();
                 unsavedFilesLabel.text = getUnsavedFilesLabelText();
                 unsavedFilesLabel.show();
-                nextLabel.tooltip = localeString("statusbar.showNext.tooltip").replace(/\{0\}/g, nextUnsavedDocument.fileName);
+                nextLabel.tooltip = locale.map("statusbar.showNext.tooltip").replace(/\{0\}/g, nextUnsavedDocument.fileName);
                 nextLabel.show();
             }
             else
@@ -265,7 +233,7 @@ export module UnsavedFiles
             getViewOnExplorerEnabled()
         );
     };
-    const showNoUnsavedFilesMessage = async () => await vscode.window.showInformationMessage(localeString("noUnsavedFiles.message"));
+    const showNoUnsavedFilesMessage = async () => await vscode.window.showInformationMessage(locale.map("noUnsavedFiles.message"));
     const stripFileName = (path : string) : string => path.substr(0, path.length -stripDirectory(path).length);
     const stripDirectory = (path : string) : string => path.split('\\').reverse()[0].split('/').reverse()[0];
     const digest = (text : string) : string => text.replace(/\s+/g, " ").substr(0, 128);
@@ -284,7 +252,7 @@ export module UnsavedFiles
             })
         ),
         {
-            placeHolder: localeString("selectUnsavedFiles.placeHolder"),
+            placeHolder: locale.map("selectUnsavedFiles.placeHolder"),
         }
     );
     export const show = async () : Promise<void> =>
