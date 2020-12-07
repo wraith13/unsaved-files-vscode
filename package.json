@@ -74,27 +74,32 @@
                     "unsaved-files.statusBar.enabled": {
                         "type": "boolean",
                         "default": true,
-                        "description": "%unsaved-files.statusBar.enabled.description%"
+                        "description": "%unsaved-files.statusBar.enabled.description%",
+                        "scope": "window"
                     },
                     "unsaved-files.statusBar.noUnsavedFilesStatusLabel": {
                         "type": "string",
                         "default": "$(check)",
-                        "description": "%unsaved-files.statusBar.noUnsavedFilesStatusLabel.description%"
+                        "description": "%unsaved-files.statusBar.noUnsavedFilesStatusLabel.description%",
+                        "scope": "window"
                     },
                     "unsaved-files.statusBar.anyUnsavedFilesStatusLabel": {
                         "type": "string",
                         "default": "$(primitive-dot)",
-                        "description": "%unsaved-files.statusBar.anyUnsavedFilesStatusLabel.description%"
+                        "description": "%unsaved-files.statusBar.anyUnsavedFilesStatusLabel.description%",
+                        "scope": "window"
                     },
                     "unsaved-files.statusBar.label": {
                         "type": "string",
                         "default": "%unsaved-files.statusBar.label.default%",
-                        "description": "%unsaved-files.statusBar.label.description%"
+                        "description": "%unsaved-files.statusBar.label.description%",
+                        "scope": "window"
                     },
                     "unsaved-files.viewOnExplorer.enabled": {
                         "type": "boolean",
                         "default": true,
-                        "description": "%unsaved-files.viewOnExplorer.enabled.description%"
+                        "description": "%unsaved-files.viewOnExplorer.enabled.description%",
+                        "scope": "window"
                     }
                 }
             }
