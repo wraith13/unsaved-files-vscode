@@ -4,6 +4,12 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 2.1.2 - 2020-12-??
+
+### Changed
+
+- `activationEvents`: `*` -> `onStartupFinished`
+
 ## 2.1.1 - 2019-07-11
 
 ### Fixed

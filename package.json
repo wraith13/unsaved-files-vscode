@@ -27,7 +27,7 @@
         "documents"
     ],
     "activationEvents": [
-        "*"
+        "onStartupFinished"
     ],
     "main": "./out/source/extension",
     "contributes": {
