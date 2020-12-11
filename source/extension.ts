@@ -59,17 +59,21 @@ export module UnsavedFiles
         update = () => this.onDidChangeTreeDataEventEmitter.fire(undefined);
     }
     let unsavedFilesProvider = new UnsavedFilesProvider();
-    const getConfiguration = <type>(key? : string, section : string = applicationKey) : type =>
+    export module Config
     {
-        const configuration = vscode.workspace.getConfiguration(section);
-        return key ?
-            configuration[key] :
-            configuration;
-    };
-    const getStatusBarLabel = () : string => getConfiguration<string>("label", `${applicationKey}.statusBar`);
-    const getStatusBarEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.statusBar`);
-    const getViewOnExplorerEnabled = () : boolean => getConfiguration<boolean>("enabled", `${applicationKey}.viewOnExplorer`);
-    const setViewOnExplorerEnabled = async (enabled : boolean) : Promise<void> => await vscode.workspace.getConfiguration(`${applicationKey}.viewOnExplorer`).update("enabled", enabled, true);
+        const root = vscel.config.makeRoot(packageJson);
+        export module StatusBar
+        {
+            export const enabled = root.makeEntry<boolean>("unsaved-files.statusBar.enabled");
+            export const noUnsavedFilesStatusLabel = root.makeEntry<string>("unsaved-files.statusBar.noUnsavedFilesStatusLabel");
+            export const anyUnsavedFilesStatusLabel = root.makeEntry<string>("unsaved-files.statusBar.anyUnsavedFilesStatusLabel");
+            export const label = root.makeEntry<string>("unsaved-files.statusBar.label");
+        }
+        export module ViewOnExplorer
+        {
+            export const enabled = root.makeEntry<boolean>("unsaved-files.viewOnExplorer.enabled");
+        }
+    }
     const showTextDocument = async (textDocument : vscode.TextDocument) : Promise<vscode.TextEditor> => await vscode.window.showTextDocument
     (
         textDocument,
@@ -115,21 +119,26 @@ export module UnsavedFiles
             vscode.workspace.onDidCloseTextDocument(() => updateUnsavedDocuments()),
             vscode.workspace.onDidChangeTextDocument(() => updateUnsavedDocuments()),
             vscode.workspace.onDidSaveTextDocument(() => updateUnsavedDocuments()),
-            vscode.workspace.onDidChangeConfiguration(() => onDidChangeConfiguration())
+            vscode.workspace.onDidChangeConfiguration
+            (
+                event =>
+                {
+                    if (event.affectsConfiguration("unsaved-files"))
+                    {
+                        onDidChangeConfiguration();
+                    }
+                }
+            )
         );
         updateViewOnExplorer();
         updateUnsavedDocuments();
     };
     const getUnsavedFilesLabelText = () : string =>
     [
-        getConfiguration<string>
-        (
-            unsavedDocuments.length <= 0 ?
-                "noUnsavedFilesStatusLabel":
-                "anyUnsavedFilesStatusLabel",
-            `${applicationKey}.statusBar`
-        ),
-        getStatusBarLabel(),
+        unsavedDocuments.length <= 0 ?
+            Config.StatusBar.noUnsavedFilesStatusLabel.get():
+            Config.StatusBar.anyUnsavedFilesStatusLabel.get(),
+        Config.StatusBar.label.get(),
         `${unsavedDocuments.length}`
     ].filter(i => 0 < i.length).join(" ");
     const getUnsavedDocumentsSource = () => vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
@@ -190,7 +199,7 @@ export module UnsavedFiles
     };
     export const updateStatusBar = () : void =>
     {
-        if (getStatusBarEnabled())
+        if (Config.StatusBar.enabled.get())
         {
             if (1 < unsavedDocuments.length && previousUnsavedDocument && nextUnsavedDocument)
             {
@@ -230,7 +239,7 @@ export module UnsavedFiles
         (
             "setContext",
             "showUnsavedFilesViewOnexplorer",
-            getViewOnExplorerEnabled()
+            Config.ViewOnExplorer.enabled.get()
         );
     };
     const showNoUnsavedFilesMessage = async () => await vscode.window.showInformationMessage(locale.map("noUnsavedFiles.message"));
@@ -296,8 +305,8 @@ export module UnsavedFiles
             await showNoUnsavedFilesMessage();
         }
     };
-    const showView = async () : Promise<void> => await setViewOnExplorerEnabled(true);
-    const hideView = async () : Promise<void> => await setViewOnExplorerEnabled(false);
+    const showView = async () : Promise<void> => await Config.ViewOnExplorer.enabled.set(true);
+    const hideView = async () : Promise<void> => await Config.ViewOnExplorer.enabled.set(false);
 }
 export const activate = (context: vscode.ExtensionContext) : void =>
 {
