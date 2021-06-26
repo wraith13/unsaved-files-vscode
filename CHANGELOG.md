@@ -10,6 +10,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - `activationEvents`: `*` -> `onStartupFinished`
 
+### Security
+
+- npm audit fix
+
 ## 2.1.1 - 2019-07-11
 
 ### Fixed
