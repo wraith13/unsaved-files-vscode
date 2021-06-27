@@ -64,14 +64,14 @@ export module UnsavedFiles
         const root = vscel.config.makeRoot(packageJson);
         export module StatusBar
         {
-            export const enabled = root.makeEntry<boolean>("unsaved-files.statusBar.enabled");
-            export const noUnsavedFilesStatusLabel = root.makeEntry<string>("unsaved-files.statusBar.noUnsavedFilesStatusLabel");
-            export const anyUnsavedFilesStatusLabel = root.makeEntry<string>("unsaved-files.statusBar.anyUnsavedFilesStatusLabel");
-            export const label = root.makeEntry<string>("unsaved-files.statusBar.label");
+            export const enabled = root.makeEntry<boolean>("unsaved-files.statusBar.enabled", "root-workspace");
+            export const noUnsavedFilesStatusLabel = root.makeEntry<string>("unsaved-files.statusBar.noUnsavedFilesStatusLabel", "root-workspace");
+            export const anyUnsavedFilesStatusLabel = root.makeEntry<string>("unsaved-files.statusBar.anyUnsavedFilesStatusLabel", "root-workspace");
+            export const label = root.makeEntry<string>("unsaved-files.statusBar.label", "root-workspace");
         }
         export module ViewOnExplorer
         {
-            export const enabled = root.makeEntry<boolean>("unsaved-files.viewOnExplorer.enabled");
+            export const enabled = root.makeEntry<boolean>("unsaved-files.viewOnExplorer.enabled", "root-workspace");
         }
     }
     const showTextDocument = async (textDocument : vscode.TextDocument) : Promise<vscode.TextEditor> => await vscode.window.showTextDocument
@@ -136,9 +136,9 @@ export module UnsavedFiles
     const getUnsavedFilesLabelText = () : string =>
     [
         unsavedDocuments.length <= 0 ?
-            Config.StatusBar.noUnsavedFilesStatusLabel.get():
-            Config.StatusBar.anyUnsavedFilesStatusLabel.get(),
-        Config.StatusBar.label.get(),
+            Config.StatusBar.noUnsavedFilesStatusLabel.get("default-scope"):
+            Config.StatusBar.anyUnsavedFilesStatusLabel.get("default-scope"),
+        Config.StatusBar.label.get("default-scope"),
         `${unsavedDocuments.length}`
     ].filter(i => 0 < i.length).join(" ");
     const getUnsavedDocumentsSource = () => vscode.workspace.textDocuments.filter(i => i.isDirty || i.isUntitled);
@@ -199,7 +199,7 @@ export module UnsavedFiles
     };
     export const updateStatusBar = () : void =>
     {
-        if (Config.StatusBar.enabled.get())
+        if (Config.StatusBar.enabled.get("default-scope"))
         {
             if (1 < unsavedDocuments.length && previousUnsavedDocument && nextUnsavedDocument)
             {
@@ -239,7 +239,7 @@ export module UnsavedFiles
         (
             "setContext",
             "showUnsavedFilesViewOnexplorer",
-            Config.ViewOnExplorer.enabled.get()
+            Config.ViewOnExplorer.enabled.get("default-scope")
         );
     };
     const showNoUnsavedFilesMessage = async () => await vscode.window.showInformationMessage(locale.map("noUnsavedFiles.message"));

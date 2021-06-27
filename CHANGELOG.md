@@ -9,6 +9,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Changed
 
 - `activationEvents`: `*` -> `onStartupFinished`
+- Updated internal package.
 
 ### Security
 

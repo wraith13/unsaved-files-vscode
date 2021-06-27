@@ -112,7 +112,7 @@
         "watch": "tsc -watch -p ./"
     },
     "dependencies": {
-        "@wraith13/vscel": "^0.0.37"
+        "@wraith13/vscel": "^0.0.49"
     },
     "devDependencies": {
         "@types/node": "^12.11.7",
