@@ -40,6 +40,56 @@
                 }
             ]
         },
+        "menus": {
+            "view/item/context": [
+                {
+                    "command": "unsaved-files.revealFileInFinder",
+                    "when": "viewItem != untitled && isMac"
+                },
+                {
+                    "command": "unsaved-files.revealFileInExplorer",
+                    "when": "viewItem != untitled && !isMac && !isWeb"
+                },
+                {
+                    "command": "unsaved-files.copyFilePath",
+                    "when": "viewItem != untitled"
+                },
+                {
+                    "command": "unsaved-files.copyRelativeFilePath",
+                    "when": "viewItem != untitled"
+                },
+                {
+                    "command": "workbench.files.action.compareFileWith"
+                },
+                {
+                    "command": "workbench.files.action.compareWithClipboard"
+                },
+                {
+                    "command": "workbench.files.action.compareWithSaved"
+                },
+                {
+                    "command": "workbench.files.action.showActiveFileInExplorer"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "unsaved-files.revealFileInFinder",
+                    "when": "false"
+                },
+                {
+                    "command": "unsaved-files.revealFileInExplorer",
+                    "when": "false"
+                },
+                {
+                    "command": "unsaved-files.copyFilePath",
+                    "when": "false"
+                },
+                {
+                    "command": "unsaved-files.copyRelativeFilePath",
+                    "when": "false"
+                }
+            ]
+        },
         "commands": [
             {
                 "command": "unsaved-files.show",
@@ -65,6 +115,26 @@
                 "command": "unsaved-files.hideView",
                 "title": "%unsaved-files-vscode.hideView.title%",
                 "category": "%unsaved-files-vscode.title%"
+            },
+            {
+                "command": "unsaved-files.revealFileInFinder",
+                "title": "%unsaved-files-vscode.revealFileInFinder.title%",
+                "category": "file"
+            },
+            {
+                "command": "unsaved-files.revealFileInExplorer",
+                "title": "%unsaved-files-vscode.revealFileInExplorer.title%",
+                "category": "file"
+            },
+            {
+                "command": "unsaved-files.copyFilePath",
+                "title": "%unsaved-files-vscode.copyFilePath.title%",
+                "category": "file"
+            },
+            {
+                "command": "unsaved-files.copyRelativeFilePath",
+                "title": "%unsaved-files-vscode.copyRelativeFilePath.title%",
+                "category": "file"
             }
         ],
         "configuration": [

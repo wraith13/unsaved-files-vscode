@@ -50,6 +50,7 @@ export module UnsavedFiles
                             command: "vscode.open",
                             arguments:[i.uri]
                         },
+                        contextValue: i.isUntitled ? "untitled": "",
                     })
                 ):
                 [{
@@ -84,12 +85,20 @@ export module UnsavedFiles
         const showCommandKey = `${applicationKey}.show`;
         const showNextCommandKey = `${applicationKey}.showNext`;
         const showPreviousCommandKey = `${applicationKey}.showPrevious`;
+        const revealFileInFinderCommandKey = `${applicationKey}.revealFileInFinder`;
+        const revealFileInExplorerCommandKey = `${applicationKey}.revealFileInExplorer`;
+        const copyFilePathCommandKey = `${applicationKey}.copyFilePath`;
+        const copyRelativeFilePathCommandKey = `${applicationKey}.copyRelativeFilePath`;
         context.subscriptions.push
         (
             //  コマンドの登録
             vscode.commands.registerCommand(showCommandKey, show),
             vscode.commands.registerCommand(showNextCommandKey, showNext),
             vscode.commands.registerCommand(showPreviousCommandKey, showPrevious),
+            vscode.commands.registerCommand(revealFileInFinderCommandKey, revealFileInOS),
+            vscode.commands.registerCommand(revealFileInExplorerCommandKey, revealFileInOS),
+            vscode.commands.registerCommand(copyFilePathCommandKey, copyFilePath),
+            vscode.commands.registerCommand(copyRelativeFilePathCommandKey, copyRelativeFilePath),
             vscode.commands.registerCommand(`${applicationKey}.showView`, showView),
             vscode.commands.registerCommand(`${applicationKey}.hideView`, hideView),
             //  ステータスバーアイテムの登録
@@ -305,6 +314,12 @@ export module UnsavedFiles
             await showNoUnsavedFilesMessage();
         }
     };
+    export const revealFileInOS = async () : Promise<void> =>
+        await vscode.commands.executeCommand("revealFileInOS");
+    export const copyFilePath = async () : Promise<void> =>
+        await vscode.commands.executeCommand("copyFilePath");
+    export const copyRelativeFilePath = async () : Promise<void> =>
+        await vscode.commands.executeCommand("copyRelativeFilePath");
     const showView = async () : Promise<void> => await Config.ViewOnExplorer.enabled.set(true);
     const hideView = async () : Promise<void> => await Config.ViewOnExplorer.enabled.set(false);
 }
