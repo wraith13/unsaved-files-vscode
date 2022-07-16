@@ -4,7 +4,16 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## 2.1.3 - 202?-??-??
+## 2.1.3 - 2022-07-16
+
+### Added
+
+- Also released on [github.com](https://github.com/wraith13/unsaved-files-vscode/releases)
+- VSIX download link in README.md
+
+### Fixed
+
+- Fix typo in README.md [PR #10](https://github.com/wraith13/unsaved-files-vscode/pull/10) ( by @happymacarts )
 
 ### Security
 
