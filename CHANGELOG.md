@@ -4,6 +4,12 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 2.1.4 - 2022-??-??
+
+### Security
+
+- npm audit fix
+
 ## 2.1.3 - 2022-07-16
 
 ### Added
@@ -23,7 +29,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Added
 
-- Supported Web platform.
+- Supported Web platform. ( `vscode.dev` )
 - context menu in view on explorer.
 
 ### Changed
