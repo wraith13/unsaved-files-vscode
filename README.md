@@ -1,7 +1,5 @@
 # Unsaved Files README
 
-[![Visual Studio Marketplace](https://vsmarketplacebadge.apphb.com/version/wraith13.unsaved-files-vscode.svg) ![installs](https://vsmarketplacebadge.apphb.com/installs/wraith13.unsaved-files-vscode.svg) ![rating](https://vsmarketplacebadge.apphb.com/rating/wraith13.unsaved-files-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=wraith13.unsaved-files-vscode)
-
 Easy access to unsaved files for vscode.
 
 ## Features

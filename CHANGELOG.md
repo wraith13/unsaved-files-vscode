@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## 2.1.4 - 2022-??-??
 
+### Removed
+
+- VSMarketplaceBadges in README.md. ( To avoid an issue where updates cannot be released to the marketplace due to a VSMarketplaceBadges server failure. )
+
 ### Security
 
 - npm audit fix
