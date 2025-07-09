@@ -5,3 +5,4 @@ node_modules
 .vscode-test-web
 private
 desktop.ini
+.DS_Store
