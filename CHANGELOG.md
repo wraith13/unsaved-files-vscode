@@ -4,7 +4,7 @@ All notable changes to the "unsaved-files-vscode" extension will be documented i
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## 2.1.5 - 2025-07-??
+## 2.1.5 - 2025-07-10
 
 ### Fixed
 
