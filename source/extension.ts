@@ -8,6 +8,7 @@ export type LocaleKeyType = keyof typeof localeEn;
 const locale = vscel.locale.make(localeEn, { "ja": localeJa });
 export module UnsavedFiles
 {
+    const publisher = packageJson.publisher;
     const applicationKey = "unsaved-files";
     let unsavedDocuments : vscode.TextDocument[] = [];
     let nextUnsavedDocument : vscode.TextDocument | null = null;
@@ -50,11 +51,12 @@ export module UnsavedFiles
                             command: "vscode.open",
                             arguments:[i.uri]
                         },
-                        contextValue: i.isUntitled ? "untitled": "",
+                        contextValue: `${publisher}.${applicationKey}.${i.isUntitled ? "untitled": "titled"}`,
                     })
                 ):
                 [{
                     label: locale.map("noUnsavedFiles.message"),
+                    contextValue: `${publisher}.${applicationKey}.noUnsavedFiles`,
                 }];
         }
         update = () => this.onDidChangeTreeDataEventEmitter.fire(undefined);

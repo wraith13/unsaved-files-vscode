@@ -6,6 +6,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## 2.1.5 - 2025-07-??
 
+### Fixed
+
+- Fixed an issue where the context menu was displayed in the views of other extensions.
+
 ### Security
 
 - npm audit fix

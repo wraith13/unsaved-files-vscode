@@ -45,33 +45,35 @@
             "view/item/context": [
                 {
                     "command": "unsaved-files.revealFileInFinder",
-                    "when": "viewItem != untitled && isMac"
+                    "when": "viewItem == wraith13.unsaved-files.titled && isMac"
                 },
                 {
                     "command": "unsaved-files.revealFileInExplorer",
-                    "when": "viewItem != untitled && !isMac && !isWeb"
+                    "when": "viewItem == wraith13.unsaved-files.titled && !isMac && !isWeb"
                 },
                 {
                     "command": "unsaved-files.copyFilePath",
-                    "when": "viewItem != untitled"
+                    "when": "viewItem == wraith13.unsaved-files.titled"
                 },
                 {
                     "command": "unsaved-files.copyRelativeFilePath",
-                    "when": "viewItem != untitled"
+                    "when": "viewItem == wraith13.unsaved-files.titled"
                 },
                 {
-                    "command": "unsaved-files.compareFileWith"
+                    "command": "unsaved-files.compareFileWith",
+                    "when": "viewItem == wraith13.unsaved-files.untitled || viewItem == wraith13.unsaved-files.titled"
                 },
                 {
-                    "command": "unsaved-files.compareWithClipboard"
+                    "command": "unsaved-files.compareWithClipboard",
+                    "when": "viewItem == wraith13.unsaved-files.untitled || viewItem == wraith13.unsaved-files.titled"
                 },
                 {
                     "command": "unsaved-files.compareWithSaved",
-                    "when": "viewItem != untitled"
+                    "when": "viewItem == wraith13.unsaved-files.titled"
                 },
                 {
                     "command": "unsaved-files.showActiveFileInExplorer",
-                    "when": "viewItem != untitled"
+                    "when": "viewItem == wraith13.unsaved-files.titled"
                 }
             ],
             "commandPalette": [
